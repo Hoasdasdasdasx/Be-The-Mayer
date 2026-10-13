@@ -1,111 +1,400 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#131a23"><title>시장 쟁탈전 · 권력의 도시</title>
-<style>
-:root{--bg:#10151d;--panel:#19212d;--panel2:#202b39;--line:#334155;--text:#eff4f8;--muted:#9cabbc;--gold:#e7bd6a;--gold2:#b98c40;--red:#e87970;--blue:#85b7ff;--green:#83d4b1;--purple:#c0a2fc;--shadow:0 18px 60px #0003}*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:Inter,Pretendard,"Noto Sans KR",system-ui,-apple-system,sans-serif;background:radial-gradient(ellipse at 15% 0%,#263241 0,transparent 35%),linear-gradient(135deg,#0e131a,#151d28 65%,#121820);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer;transition:.15s ease}button:disabled{opacity:.38;cursor:not-allowed}.app{max-width:1400px;margin:auto;padding:22px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}.brand{display:flex;gap:13px;align-items:center}.crest{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#f1d28c,#ab7c32);display:grid;place-items:center;color:#1d2430;font-size:25px;box-shadow:0 8px 25px #d7a74830}.brand h1{margin:0;font-size:20px;letter-spacing:-.5px}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.top-actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#222d3b;color:var(--text);padding:10px 14px;border-radius:10px;font-weight:650}.btn:hover:not(:disabled){transform:translateY(-1px);border-color:#6d8097;background:#2b394a}.btn.primary{background:linear-gradient(135deg,#f1d28c,#c49a52);border-color:#dbb66c;color:#201b13}.btn.primary:hover:not(:disabled){background:#f5dba3}.btn.danger{background:#482c30;border-color:#754146;color:#ffd2cf}.btn.small{padding:7px 10px;font-size:12px}.eyebrow{color:var(--gold);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.7px}.hero{padding:28px;border:1px solid #3e4857;border-radius:22px;background:linear-gradient(125deg,#232f3d,#18212c 62%,#29251f);box-shadow:var(--shadow);margin-bottom:18px;position:relative;overflow:hidden}.hero:after{content:'⚖';position:absolute;right:4%;top:-35px;font-size:220px;line-height:1;color:#d7b36a0b;pointer-events:none}.hero h2{font-size:clamp(24px,4vw,38px);line-height:1.2;margin:8px 0 12px;letter-spacing:-1.2px}.hero p{color:#bdc8d4;line-height:1.7;max-width:720px;margin:0}.hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #566171;background:#10182180;padding:7px 10px;border-radius:999px;color:#d8e1eb;font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}.panel{background:linear-gradient(160deg,#1d2733,#18212c);border:1px solid #344151;border-radius:18px;padding:18px;box-shadow:0 10px 32px #0002;min-width:0}.panel+.panel{margin-top:16px}.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.panel-head h3{font-size:16px;margin:0;letter-spacing:-.3px}.sub{color:var(--muted);font-size:12px;line-height:1.6}.lobby-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px;margin:12px 0}.field label{color:#c5d0dc;font-size:12px;font-weight:700}.field input,.field select,select{background:#101821;color:var(--text);border:1px solid #435165;border-radius:10px;padding:11px 12px;outline:none;width:100%}.field input:focus,.field select:focus,select:focus{border-color:var(--gold)}.segmented{display:flex;gap:7px}.segmented button{flex:1}.segmented .active{border-color:var(--gold);background:#3a3224;color:#ffe2a4}.roomline{padding:12px;border-radius:12px;background:#111923;border:1px solid #344151;display:flex;align-items:center;justify-content:space-between;gap:8px}.roomcode{font-family:ui-monospace,monospace;letter-spacing:3px;font-size:23px;color:var(--gold);font-weight:900}.players{display:flex;flex-direction:column;gap:8px}.player{padding:11px 12px;border:1px solid #344151;background:#17212c;border-radius:12px;display:flex;align-items:center;gap:11px}.avatar{width:35px;height:35px;border-radius:10px;display:grid;place-items:center;background:#334154;color:#f1d28c;font-weight:850;flex-shrink:0}.player-main{flex:1;min-width:0}.player-name{font-size:13px;font-weight:750;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.player-meta{color:var(--muted);font-size:11px;margin-top:4px}.score{font-weight:900;color:var(--gold);font-size:19px;text-align:right}.resource-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.rbadge{display:inline-flex;gap:4px;align-items:center;background:#0f1720;border:1px solid #354355;padding:3px 6px;border-radius:6px;font-size:10px;color:#d9e3ed}.rC{color:#f0cd7a}.rI{color:#91c1ff}.rO{color:#fb9a91}.rE{color:#c3a1ff}.phasebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}.phase-title{font-size:20px;font-weight:850}.turnmark{border:1px solid #61543b;color:var(--gold);background:#30291f;padding:7px 11px;border-radius:10px;font-size:12px;font-weight:800}.stepper{display:flex;gap:6px;margin:12px 0 18px}.step{padding:7px 10px;border-radius:8px;background:#111923;border:1px solid #303e4e;color:#8e9cac;font-size:11px}.step.active{background:#433722;color:#ffdda0;border-color:#927343}.locations{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.location{border:1px solid #3a4757;border-radius:14px;background:linear-gradient(150deg,#253242,#1b2530);padding:14px 10px;min-height:142px;text-align:left;color:var(--text);position:relative;overflow:hidden}.location:hover:not(:disabled){border-color:var(--gold);transform:translateY(-2px)}.location.chosen{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold);background:#3b3324}.location.closed{opacity:.52}.location .icon{font-size:26px;margin-bottom:10px}.location .loc-name{font-weight:800;font-size:13px}.location .loc-resource{font-size:11px;color:var(--muted);margin-top:5px}.capacity{position:absolute;top:10px;right:10px;font-size:10px;color:#c5d0dc;background:#111923bd;padding:4px 6px;border-radius:6px}.capacity b{color:var(--gold)}.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px}.playing-card{min-width:0;border:1px solid #465567;border-radius:13px;background:linear-gradient(160deg,#263443,#1a232e);padding:12px;display:flex;flex-direction:column;gap:8px;position:relative}.playing-card.selected{border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold);background:#312d25}.card-top{display:flex;justify-content:space-between;align-items:center;gap:6px}.family{font-size:10px;font-weight:850;letter-spacing:.3px;border-radius:5px;padding:4px 6px;background:#253443;color:#9cb0c3}.family.C{background:#51442b;color:#f0cf7e}.family.I{background:#233d5b;color:#9bc7ff}.family.O{background:#512e31;color:#ffaaa3}.family.E{background:#42335b;color:#d4bcff}.timing{font-size:10px;color:var(--muted)}.playing-card h4{margin:0;font-size:14px;letter-spacing:-.25px}.cost{font-family:ui-monospace,monospace;font-size:11px;color:#e8ce96;background:#101820;border:1px solid #364455;padding:6px 7px;border-radius:7px;display:inline-block;align-self:flex-start}.card-desc{font-size:11px;line-height:1.6;color:#c0ccd8;flex:1}.playing-card .btn{width:100%;padding:8px;font-size:11px}.empty{padding:25px 16px;border:1px dashed #3c4b5d;border-radius:12px;text-align:center;color:#96a5b6;font-size:12px;line-height:1.8}.action-box{border:1px solid #6b5a3b;background:linear-gradient(145deg,#302b23,#1d252e);border-radius:14px;padding:16px;margin-bottom:12px}.action-box h4{margin:0 0 7px;font-size:15px}.action-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}.action-fields .field{margin:0}.action-fields label{font-size:11px}.log{display:flex;flex-direction:column;gap:8px;max-height:370px;overflow:auto}.log-item{border-left:2px solid #6d5a36;padding:2px 0 2px 10px;color:#acbac8;font-size:11px;line-height:1.55}.log-item:first-child{color:#f1d69c;border-color:var(--gold)}.status{padding:12px;border-radius:11px;border:1px solid #35475b;background:#121a24;color:#c2d0df;line-height:1.6;font-size:12px;margin-bottom:12px}.status strong{color:var(--gold)}.shareline{display:flex;gap:8px;align-items:center}.shareline input{min-width:0;flex:1;background:#101821;border:1px solid #3d4a5d;color:#bdc9d6;border-radius:8px;padding:9px;font-size:11px}.hidden{display:none!important}.footer{text-align:center;color:#748497;font-size:11px;padding:22px 0 8px}.overlay{position:fixed;inset:0;background:#05090fd9;display:grid;place-items:center;padding:18px;z-index:100}.modal{max-width:650px;width:100%;max-height:88vh;overflow:auto;background:#1a2430;border:1px solid #49576a;border-radius:18px;padding:22px;box-shadow:var(--shadow)}.modal h2{margin-top:0}.modal h3{font-size:14px;color:var(--gold);margin:20px 0 7px}.modal p,.modal li{font-size:13px;line-height:1.8;color:#c4cfdb}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#2b3542;border:1px solid #65758a;color:white;padding:12px 17px;border-radius:10px;box-shadow:var(--shadow);z-index:120;font-size:13px;max-width:90vw}.toast.error{border-color:#d87070;background:#46292e}.toast.ok{border-color:#62b893;background:#1d443c}.connection{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}.connection span{width:7px;height:7px;border-radius:50%;background:#d2a65e}.connection.connected span{background:#61d2a2}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}.market-note{font-size:11px;color:#8f9eae;margin:0 0 10px}.myresources{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px}.resource-tile{background:#111922;border:1px solid #344151;border-radius:10px;padding:11px;text-align:center}.resource-tile strong{display:block;font-size:23px;margin-top:5px}.resource-tile span{font-size:11px;color:var(--muted)}
-@media(max-width:970px){.grid{grid-template-columns:1fr}.sidegrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.sidegrid .panel+.panel{margin-top:0}}@media(max-width:650px){.app{padding:12px}.topbar{align-items:flex-start}.brand h1{font-size:16px}.brand p{font-size:10px}.crest{width:40px;height:40px}.top-actions .btn{padding:8px 9px;font-size:11px}.hero{padding:20px}.hero:after{font-size:140px;right:-8%}.lobby-grid,.sidegrid{grid-template-columns:1fr}.locations{grid-template-columns:repeat(2,1fr)}.location{min-height:120px}.action-fields{grid-template-columns:1fr}.panel{padding:14px}.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.playing-card{padding:10px}.playing-card h4{font-size:12px}.card-desc{font-size:10px}.myresources{gap:5px}.resource-tile{padding:8px 4px}.resource-tile strong{font-size:19px}.phase-title{font-size:18px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Be The Mayor · 시장 쟁탈전</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23101827'/%3E%3Cpath d='M6 15 20 5 34 15M9 18v13m11-13v13m11-13v13M5 35h30' fill='none' stroke='%23d9ac57' stroke-width='3'/%3E%3C/svg%3E">
+  <!-- Generated by npm run build; edit client/index.template.html and public source files. -->
+  <style>
+:root{color-scheme:dark;--bg:#101827;--panel:#1b2738;--gold:#d9ac57;--text:#f4f5f7;--muted:#a9b5c5;--line:#ffffff1c;--C:#e9ba59;--I:#589ce5;--O:#d95858;--E:#a678d6;--accent:var(--gold);scroll-padding-top:190px}
+.server-notice{margin:20px auto;padding:12px 18px;max-width:calc(100% - 36px);width:1250px;border:1px solid #d9ac5755;background:#d9ac5712;color:#e8d5b2;font-size:13px;border-radius:5px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 "Pretendard","Noto Sans KR",system-ui,-apple-system,sans-serif;background-image:radial-gradient(ellipse at 65% 5%,#b7934812,transparent 60%);transition:background-color .7s}body[data-theme=night]{background-color:#0b1120;background-image:radial-gradient(ellipse at 65% 10%,#655a9d22,transparent 65%)}button,input,select{font:inherit}button{cursor:pointer}button,a,input,select{ -webkit-tap-highlight-color:transparent}button:disabled{cursor:not-allowed;opacity:.5}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #f3d790;outline-offset:4px}h1,h2,h3,p{margin:0}h2{font-size:18px;letter-spacing:-.5px}h3{font-size:16px}p{line-height:1.8}a{color:inherit}button{color:inherit}button, input, select{border-radius:5px}[hidden]{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}.eyebrow{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:700}.text-C{color:var(--C)}.text-I{color:#8cbaff}.text-O{color:#f48d8d}.text-E{color:#c8a4ef}.family-C{--accent:var(--C)}.family-I{--accent:var(--I)}.family-O{--accent:var(--O)}.family-E{--accent:var(--E)}
+.btn{border:1px solid #73829a55;background:#233045;padding:10px 16px;min-height:42px;font-weight:600;font-size:12px;transition:background .2s,border-color .2s}.btn:hover:not(:disabled){border-color:var(--gold);background:#344158}.btn.primary{color:#171b25;background:linear-gradient(110deg,#edd197,#d5a451);border-color:#edce8d;box-shadow:0 4px 20px #d9ac5715}.btn.primary:hover:not(:disabled){background:#f4d59c}.btn.quiet{background:transparent;border-color:transparent}.btn.quiet:hover{border-color:var(--line)}.btn.danger{border-color:#a55353;color:#ffc6c6}.wide{width:100%}.section-heading{display:flex;justify-content:space-between;gap:12px;align-items:center}.field{display:flex;flex-direction:column;gap:7px;margin:16px 0;color:#c1ccda;font-size:12px}input,select{background:#0e1726;color:var(--text);border:1px solid #63718a66;padding:12px;width:100%;min-width:0}fieldset{border:0;margin:24px 0;padding:0}legend{font-size:12px;color:var(--muted);margin-bottom:10px}small{font-size:10px}.topbar{min-height:80px;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);background:#101827f5;position:sticky;top:0;z-index:50;backdrop-filter:blur(12px)}.brand{text-decoration:none;display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:2px;line-height:1.4;flex-shrink:0}.brand b{color:var(--gold)}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:3px;margin-top:4px}.crest{width:38px;height:42px;border:1px solid #b5955a88;color:var(--gold);font-size:28px;text-align:center;clip-path:polygon(0 0,100% 0,100% 80%,50% 100%,0 80%);background:#d9ac5710}.top-actions{display:flex;gap:5px;align-items:center}.connection{font-size:10px;color:var(--muted);margin-right:8px}.connection:before{content:'';display:inline-block;width:6px;height:6px;margin-right:6px;border-radius:100%;background:#dba759}.connection.online:before{background:#79c9a5;box-shadow:0 0 8px #79c9a555}.turn-status{text-align:center;font-size:12px}.turn-status strong{color:var(--gold);font-size:20px;margin-right:8px}.turn-status .actor{color:var(--muted);display:block;font-size:11px}.turn-status .my-turn{color:var(--gold)}
+.entry{max-width:1320px;margin:60px auto;padding:0 35px;display:grid;grid-template-columns:1.25fr 1fr;gap:80px;align-items:center}.entry-story{position:relative}.entry h1{font-size:clamp(40px,4.8vw,72px);line-height:1.2;letter-spacing:-3px;margin:22px 0;font-weight:850}.entry h1 em{color:var(--gold);font-style:normal}.entry p{color:var(--muted)}.entry-city{margin-top:24px;max-width:520px;border-bottom:1px solid #d9ac5740}.entry-city .art{height:230px}.entry-stats{display:flex;gap:36px;margin-top:24px;font-size:11px;color:var(--muted)}.entry-stats b{display:block;font-size:26px;color:var(--gold);font-family:Georgia,serif}.entry-forms{border:1px solid var(--line);padding:32px;background:linear-gradient(140deg,#25324788,#131d2c);box-shadow:0 30px 100px #0003;position:relative}.entry-forms:before{content:'';position:absolute;top:-1px;left:32px;width:64px;border-top:2px solid var(--gold)}.entry-forms h2{font-size:22px;margin:12px 0 22px}.entry-forms #joinForm{border-top:1px solid var(--line);padding-top:5px;margin-bottom:20px}.mode-select{display:flex;gap:10px;margin-bottom:18px}.mode-select label{flex:1;cursor:pointer;position:relative}.mode-select input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}.mode-select span{display:block;border:1px solid var(--line);padding:12px 14px}.mode-select input:checked+span{border-color:var(--gold);background:#d9ac5712}.mode-select input:focus-visible+span{outline:2px solid var(--gold);outline-offset:3px}.mode-select small{display:block;color:var(--muted);margin-top:3px}
+.campaign-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 28px;position:sticky;top:80px;background:#141e2df5;border-bottom:1px solid var(--line);z-index:40;backdrop-filter:blur(10px)}.my-resources{display:flex;align-items:center;gap:24px}.resource-total{border-right:1px solid var(--line);padding-right:24px;color:var(--gold);font-size:12px}.resource-total b{font-size:23px;margin-left:8px}.resource-item{font-size:11px}.resource-item b{font-size:20px;color:var(--text);margin-left:8px}.campaign-actions{display:flex;gap:4px}#playersToggle{display:none}.arena{max-width:1760px;margin:auto;padding:22px 28px 0;display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px 30px;align-items:start}.candidates{min-width:0}.candidates>p{margin:6px 0 18px}.candidate{padding:13px 12px;border:1px solid var(--line);background:linear-gradient(110deg,#202d40,#172233);margin:9px 0;position:relative;border-radius:4px}.candidate.self{border-left:3px solid var(--gold)}.candidate.active{border-color:var(--gold);box-shadow:0 0 20px #d9ac5720}.candidate-top{display:flex;align-items:center;gap:9px}.avatar{width:32px;height:37px;display:grid;place-items:center;background:linear-gradient(150deg,#576478,#28374d);color:#e1d4b5;font-family:serif;font-size:18px;flex-shrink:0}.candidate-name{flex:1;min-width:0}.candidate-name b{font-size:12px;overflow-wrap:anywhere}.candidate-name span{display:block;color:var(--muted);font-size:9px}.candidate-score{font-size:23px;color:var(--gold);line-height:1.1;text-align:right;font-family:Georgia,serif}.candidate-score small{display:block;font:9px/1.7 system-ui;color:var(--muted)}.resource-row{display:flex;justify-content:space-between;font-size:11px;padding:9px 0 6px}.candidate-foot{font-size:9px;color:var(--muted);display:flex;justify-content:space-between;gap:3px}.candidate-foot span:last-child{color:var(--gold)}
+.battlefield{min-width:0}.board{padding:22px;border:1px solid #d9ac5738;border-radius:5px;background:radial-gradient(ellipse at 50% 0,#92784022,transparent 70%),linear-gradient(140deg,#263242,#172131);position:relative;min-height:270px;transition:background .7s}.board:before{content:'';pointer-events:none;position:absolute;inset:7px;border:1px solid #ffffff06;border-radius:3px}.board-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.board h2{margin-top:4px;font-size:22px}.phase-track{list-style:none;display:flex;gap:5px;padding:0;margin:0;counter-reset:phase}.phase-track li{font-size:9px;color:#8e9cb0;padding:5px 8px;border-bottom:2px solid #ffffff10;counter-increment:phase}.phase-track li:before{content:'0'counter(phase)' ';opacity:.6}.phase-track li.current{color:var(--gold);border-color:var(--gold)}body[data-theme=night] .board{background:radial-gradient(ellipse at 50% 0,#7862a326,transparent 70%),linear-gradient(140deg,#202840,#121b2e)}.phase-note{font-size:12px;color:var(--muted);margin-bottom:12px}.phase-note b{color:var(--gold)}.locations{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.location{position:relative;padding:0 0 12px;border:1px solid #77869a60;background:#141f2ed9;text-align:left;transition:transform .2s,border-color .2s;min-width:0;overflow:hidden}.location:hover:not(:disabled),.location.chosen{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 24px #0003}.location.chosen:after{content:'✓ 선택 완료';position:absolute;top:10px;right:8px;color:#171b25;background:var(--gold);padding:3px 7px;font-size:10px}.location .art{width:100%;height:90px;object-fit:cover;display:block;background:linear-gradient(0deg,#2f405466,transparent)}.location strong,.location .location-resource,.location .capacity{display:block;margin:0 12px}.location strong{font-size:15px;margin-top:7px}.location-resource{font-size:11px;color:var(--accent)}.capacity{font-size:10px;color:var(--muted);margin-top:4px!important}.location.closed{border-style:dashed}.location.closed .art{filter:grayscale(.8)}.waiting{padding:12px 0 0;font-size:12px;color:var(--gold)}.action-intro{display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:138px;padding:14px 20px;border:1px dashed #d9ac5745;background:#0e172555}.action-intro h3{font-size:22px;margin:8px 0}.action-intro p{max-width:550px;font-size:12px;color:var(--muted)}.action-symbol{font-size:56px;line-height:1;color:#d9ac5777;margin:0 20px}.action-bottom{display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-top:12px}.pending-label{font-size:11px;color:var(--gold)}.detail{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.detail-art{background:#0f172688;align-self:start;border:1px solid var(--accent);border-radius:3px}.detail-art .art{height:110px;width:100%;display:block}.detail h3{font-size:20px;color:var(--accent);margin-bottom:6px}.detail-description{font-size:14px;line-height:1.8;overflow-wrap:anywhere}.detail-cost{font-size:12px;color:var(--muted);margin:6px 0 10px}.detail-reason{color:#e9c18c;font-size:12px}.detail-controls{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.detail-controls .field{flex:1;min-width:130px;margin:0}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lobby-content{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 8px}.lobby-content .room-code{font-size:36px;letter-spacing:8px}.lobby-content p{font-size:12px;color:var(--muted)}.lobby-start{max-width:320px;text-align:right}.lobby-start p{margin-top:8px}.room-code{font-family:monospace;font-weight:700;letter-spacing:6px;font-size:32px;color:var(--gold)}.results .victory{color:var(--gold);font-size:26px;font-weight:750;margin:12px 0}.ranking{list-style:none;padding:0;margin:10px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.ranking li{display:flex;justify-content:space-between;gap:8px;padding:9px 12px;background:#10182777;font-size:12px}.ranking li.winner{border:1px solid var(--gold);color:var(--gold)}.ranking span{overflow-wrap:anywhere}
+.market-section{padding-top:18px}.market-section>.section-heading{margin-bottom:12px}.market{display:flex;justify-content:center;gap:14px;align-items:stretch;position:relative;isolation:auto}.game-card{--accent:var(--gold);position:relative;flex:1;max-width:225px;min-width:0;display:flex;flex-direction:column;text-align:left;padding:9px;border:1px solid color-mix(in srgb,var(--accent) 65%,#293447);border-radius:8px 8px 12px 12px;background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 12%,#1c2637),#131d2d 65%);box-shadow:0 5px 0 #070d15,0 9px 20px #0005;transition:transform .2s,box-shadow .2s,border-color .2s;transform-origin:50% 85%;color:var(--text)}.game-card.family-C{--accent:var(--C)}.game-card.family-I{--accent:var(--I)}.game-card.family-O{--accent:var(--O)}.game-card.family-E{--accent:var(--E)}.game-card:before{content:'';position:absolute;inset:4px;border:1px solid #ffffff0b;pointer-events:none;border-radius:5px 5px 8px 8px}.game-card:hover,.game-card:focus-visible{transform:translateY(-10px) scale(1.06);z-index:20;border-color:var(--accent);box-shadow:0 12px 36px #0009}.game-card.selected{border-color:#f3d48e;box-shadow:0 0 0 2px #e9c27d,0 10px 28px #0007}.game-card.playable{box-shadow:0 0 13px color-mix(in srgb,var(--accent) 25%,transparent),0 7px 18px #0006}.card-meta{display:flex;justify-content:space-between;gap:5px;font-size:9px;color:var(--accent);padding:2px 2px 5px}.card-name{font-size:14px;font-weight:750;letter-spacing:-.4px;padding:3px 1px 6px}.card-art{display:block;background:linear-gradient(145deg,#ffffff09,#0001);border:1px solid #ffffff0c;border-radius:2px;overflow:hidden}.card-art .art{display:block;width:100%;height:80px}.card-description{display:block;font-size:11px;line-height:1.7;padding:8px 2px;flex:1;overflow-wrap:anywhere;min-height:52px}.card-cost{border-top:1px solid #ffffff16;padding-top:6px;color:var(--accent);font-size:10px;line-height:1.7}.card-cost small{color:var(--muted);font-size:9px;display:block}.card-status{font-size:9px;line-height:1.5;color:#ffe1a4;padding-top:5px}.unavailable .card-status{color:var(--muted)}.unavailable .card-art{filter:saturate(.65)}.hand-section{grid-column:1/-1;border-top:1px solid #d9ac5736;padding:18px 20px 30px;display:flex;align-items:center;gap:30px;min-height:220px;background:radial-gradient(ellipse at 60% 100%,#d9ac570e,transparent 70%);position:relative}.hand-heading{width:210px;flex-shrink:0;align-self:center}.hand-heading h2{margin:7px 0 12px}.hand{flex:1;display:flex;justify-content:center;align-items:stretch;min-width:0;padding:15px 20px 0}.hand .game-card{max-width:210px;transform:translateY(var(--lift)) rotate(var(--tilt));margin-left:-18px}.hand .game-card:first-child{margin-left:0}.hand .game-card:hover,.hand .game-card:focus-visible,.hand .game-card.selected{transform:translateY(-22px) rotate(0) scale(1.08);z-index:25}.hand .game-card.selected{z-index:24}.hand-empty{display:flex;gap:12px;align-items:center;justify-content:center;width:100%;min-height:130px;color:var(--muted);font-size:12px;border:1px dashed #ffffff1c;border-radius:6px;background:repeating-linear-gradient(135deg,transparent,transparent 8px,#ffffff02 8px,#ffffff02 9px)}.hand-empty b{display:block;color:#ced5df;margin-bottom:4px}.card-back{border:1px solid #d9ac5744;width:55px;height:77px;display:grid;place-items:center;font-size:24px;color:#d9ac5777;transform:rotate(-8deg);box-shadow:5px 2px 0 #263143}
+.art{--accent:var(--gold)}.art-C{--accent:var(--C)}.art-I{--accent:var(--I)}.art-O{--accent:var(--O)}.art-E{--accent:var(--E)}.art .skyline{fill:#0b122199}.art .lit{stroke:var(--accent);stroke-width:2;opacity:.22;fill:none}.art .sun{fill:var(--accent);opacity:.13}.art .rays{stroke:var(--accent);stroke-width:.6;opacity:.12;fill:none}.art .paper{fill:#9eacbc;opacity:.85;stroke:var(--accent);stroke-width:1}.art .ink{stroke:#243349;stroke-width:3;fill:none}.art .accent-fill{fill:var(--accent)}.art .silhouette{fill:#080f1d;stroke:var(--accent);stroke-width:.7}.art .outline{stroke:var(--accent);stroke-width:2;fill:none}.art .crowd{fill:#101827;stroke:var(--accent);stroke-width:2}.art .ground{stroke:var(--accent);stroke-width:.7;opacity:.4;fill:none}.art-index{font:7px monospace;fill:var(--accent);letter-spacing:2px;opacity:.6}
+.log-panel{position:fixed;right:0;top:80px;bottom:0;width:330px;max-width:90vw;padding:22px;background:#121d2df8;border-left:1px solid #cba75d66;box-shadow:-25px 0 80px #0006;backdrop-filter:blur(12px);z-index:60;overflow-y:auto}.log-panel ol{padding:0;list-style:none;margin:20px 0}.log-panel li{font-size:12px;line-height:1.8;border-left:1px solid #d9ac5733;padding:4px 0 16px 14px;color:var(--muted)}.log-panel li:first-child{color:#e9c78b;border-color:var(--gold)}dialog{background:#182438;color:var(--text);border:1px solid #d9ac5755;border-radius:8px;width:580px;max-width:calc(100% - 30px);max-height:85dvh;padding:26px;box-shadow:0 30px 100px #0009}dialog::backdrop{background:#050c18bb;backdrop-filter:blur(6px)}dialog h2{font-size:25px;margin:12px 0 20px}dialog h3{color:var(--gold);margin:20px 0 8px}dialog p{font-size:13px;color:#bfcad9}dialog .room-code{font-size:32px;color:var(--gold)}.setting{display:flex;gap:12px;align-items:center;margin:22px 0}.setting input{width:18px;height:18px;accent-color:var(--gold)}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);max-width:calc(100% - 30px);padding:12px 22px;background:#20392f;border:1px solid #82b99b;color:#e0f5e9;border-radius:5px;font-size:13px;z-index:200;box-shadow:0 10px 40px #0008}.toast.error{background:#41282d;border-color:#c57a7a;color:#ffe3e3}#phaseTransition{position:fixed;inset:0;pointer-events:none;z-index:100;opacity:0;background:radial-gradient(ellipse at center,#bda06a33,#0b122188)}#phaseTransition.animate{animation:phase-wash .75s ease-out}#effects{pointer-events:none;position:fixed;inset:0;z-index:110}.card-ghost{position:fixed;pointer-events:none;margin:0!important;transform:none!important;animation:card-play .55s ease-in forwards}.resource-spend{animation:resource-spend .6s ease-out}.card-arrive{animation:card-arrive .5s ease-out}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.skip-link{position:fixed;top:-100px;left:20px;z-index:300;background:var(--gold);color:#101827;padding:12px}.skip-link:focus{top:10px}
+@keyframes phase-wash{0%{opacity:0}35%{opacity:1}100%{opacity:0}}@keyframes card-play{to{translate:0 -140px;scale:.65;opacity:0}}@keyframes card-arrive{from{opacity:.1;translate:0 -35px}to{opacity:1;translate:0 0}}@keyframes resource-spend{40%{color:#fff0b8;box-shadow:0 0 18px #d9ac5755}}
+@media(min-width:1600px){.arena{padding-top:24px;gap:20px 36px}.board{min-height:235px;padding:18px 24px}.board-top{margin-bottom:10px}.action-intro{min-height:95px;padding:10px 20px}.action-intro h3{font-size:20px;margin:4px 0}.location .art{height:95px}.game-card{max-width:245px}.card-art .art{height:75px}.card-description{font-size:12px}.card-name{font-size:16px}.hand .game-card{max-width:235px}.hand-section{min-height:245px;padding-top:12px;padding-bottom:24px}.hand .card-art .art{height:60px}.hand .card-description{font-size:11px}}
+@media(max-width:1150px){.arena{grid-template-columns:200px minmax(0,1fr);gap:18px;padding:18px}.topbar{padding:12px 18px}.brand{font-size:11px;gap:7px}.board{padding:16px}.board-top{align-items:flex-start;flex-direction:column;gap:5px}.phase-track li{padding:3px 7px}.market{gap:8px}.card-name{font-size:12px}.card-description{font-size:10px}.card-meta{font-size:8px}.card-art .art{height:65px}.my-resources{gap:16px}.hand-heading{width:180px}.hand-section{gap:10px}}
+@media(max-width:850px){.topbar{flex-wrap:wrap;min-height:100px;gap:6px;padding:10px 16px}.top-actions{margin-left:auto}.turn-status{order:3;flex-basis:100%;display:flex;gap:10px;align-items:center;justify-content:center}.turn-status strong{font-size:16px}.turn-status .actor{display:inline}.connection{font-size:9px}.top-actions .btn{padding:7px 8px}.campaign-bar{top:100px;padding:8px 16px;flex-wrap:wrap}.campaign-actions{margin-left:auto}#playersToggle{display:block}.my-resources{gap:12px}.resource-total{padding-right:12px}.resource-item b{font-size:17px;margin-left:4px}.arena{grid-template-columns:1fr;padding:16px}.candidates{display:none}.candidates.open{display:block}.candidates #playerList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.candidate{margin:0}.battlefield{grid-column:1}.board-top{flex-direction:row}.hand-section{padding:18px 8px 30px;display:block}.hand-heading{width:auto;display:flex;justify-content:space-between;gap:12px;align-items:center}.hand-heading h2{margin:4px 0}.hand-heading p{font-size:10px}.hand{padding:32px 12px 10px}.hand .game-card{margin-left:-12px}.entry{margin:30px auto;gap:30px;padding:0 24px;grid-template-columns:1fr 1fr}.entry h1{font-size:40px}.entry-forms{padding:22px}.entry-city .art{height:160px}.entry-stats{gap:20px}.log-panel{top:100px}.game-card{min-width:0}}
+@media(max-width:600px){body{font-size:13px}.brand{font-size:10px;letter-spacing:1px}.brand small{font-size:8px}.crest{width:28px;height:32px;font-size:21px}.connection{margin-right:0;max-width:60px}.top-actions{gap:0}.top-actions .btn{font-size:10px;padding:6px;min-height:38px}.topbar{padding:8px 10px}.entry{display:block;margin:25px auto;padding:0 18px}.entry h1{font-size:44px}.entry-story>p{font-size:12px}.entry-city{display:none}.entry-stats{margin:20px 0 30px;gap:30px}.entry-stats b{font-size:22px}.entry-forms{padding:22px}.entry-forms h2{font-size:19px}.campaign-bar{gap:3px;padding:8px 10px}.my-resources{justify-content:space-between;width:100%;gap:5px}.resource-item{font-size:10px}.resource-item b{font-size:16px;margin-left:3px}.resource-total{font-size:10px;padding-right:8px}.resource-total b{font-size:19px;margin-left:4px}.campaign-actions .btn{min-height:30px;padding:4px 8px;font-size:10px}.arena{padding:12px;gap:16px}.board{padding:14px}.board-top{flex-direction:column;gap:10px}.board h2{font-size:20px}.phase-track{gap:0}.phase-track li{font-size:9px;padding:4px 7px}.locations{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.location .art{height:90px}.location strong{font-size:14px}.location-resource{font-size:10px}.market{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.game-card{max-width:none;min-height:245px}.card-name{font-size:14px}.card-description{font-size:12px;min-height:60px}.card-cost{font-size:10px}.card-meta{font-size:10px}.card-art .art{height:85px}.card-status{font-size:10px}.market-section>.section-heading{align-items:flex-start;gap:6px;flex-direction:column}.hand{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:24px 4px 10px}.hand .game-card{margin:0;max-width:none;transform:rotate(0)}.hand .game-card:hover,.hand .game-card:focus-visible,.hand .game-card.selected{transform:translateY(-9px) scale(1.03)}.hand-empty{grid-column:1/-1}.hand-heading>p{max-width:170px}.hand-heading .eyebrow{font-size:8px;letter-spacing:1px}.detail{grid-template-columns:1fr;gap:10px}.detail-art{display:none}.detail h3{font-size:18px}.detail-controls{flex-direction:column}.detail-description{font-size:13px}.action-intro{min-height:130px;padding:16px;gap:8px}.action-intro h3{font-size:19px}.action-symbol{display:none}.lobby-content{flex-direction:column;align-items:flex-start;gap:16px}.lobby-start{text-align:left}.ranking{grid-template-columns:1fr}.candidate-name b{font-size:11px}.candidate-top{gap:6px}.avatar{width:23px;font-size:15px}.candidate{padding:10px 8px}.candidate-score{font-size:20px}.candidate-foot{font-size:8px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.game-card:hover,.game-card:focus-visible,.hand .game-card:hover,.hand .game-card.selected{transform:none!important}}
+body.reduce-motion *,body.reduce-motion *:before,body.reduce-motion *:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+body.reduce-motion .game-card:hover,body.reduce-motion .game-card:focus-visible,body.reduce-motion .hand .game-card.selected{transform:none!important}
+
+  </style>
+  <script src="/socket.io/socket.io.js" defer></script>
+
 </head>
-<body>
-<div class="app">
-<header class="topbar">
-  <div class="brand"><div class="crest">⚖</div><div><h1>시장 쟁탈전</h1><p>권력의 도시 · 실시간 멀티플레이 프로토타입</p></div></div>
-  <div class="top-actions"><span class="connection" id="connection"><span></span>서버 연결 중</span><button class="btn" id="rulesBtn">규칙 보기</button><button class="btn" id="shareTop" disabled>초대 링크</button></div>
-</header>
-<section class="hero" id="hero">
- <div class="eyebrow">CITY OF INFLUENCE · PLAYTEST 0.2</div>
- <h2>시장의 자리는<br>단 한 사람의 것이다.</h2>
- <p>시민의 지지를 모으고, 지식인의 도움을 얻고, 조직원을 움직이고, 상류층의 인맥을 동원하세요. 자원을 지킬 것인가, 권력을 위해 투자할 것인가? 10턴 뒤 가장 많은 지지를 얻은 사람이 도시의 시장이 됩니다.</p>
- <div class="hero-stats"><span class="pill"><span class="dot"></span>실시간 방 참가</span><span class="pill">☼ 낮 + ☾ 밤 = 1턴</span><span class="pill">♙ 2–10명</span><span class="pill">▤ 계층별 비용 시스템</span></div>
-</section>
-<div id="lobbyScreen" class="grid">
- <main>
-  <section class="panel">
-   <div class="panel-head"><h3>새로운 정치판을 열기</h3><span class="eyebrow">CREATE ROOM</span></div>
-   <p class="sub">방을 만들면 초대 코드와 공유 링크가 생성됩니다. 친구들은 링크를 열거나 코드로 참가할 수 있어요.</p>
-   <div class="lobby-grid">
-    <div><div class="field"><label for="createName">플레이어 이름</label><input id="createName" maxlength="20" placeholder="예: 무소속 후보" value=""></div>
-    <div class="field"><label>방 정원</label><div class="segmented"><button class="btn active" id="max6">6인 테스트</button><button class="btn" id="max10">10인 온라인</button></div></div>
-    <button class="btn primary" id="createBtn" style="width:100%;margin-top:4px">＋ 새 방 만들기</button></div>
-    <div style="border-left:1px solid #344151;padding-left:18px"><div class="field"><label for="joinName">참가할 플레이어 이름</label><input id="joinName" maxlength="20" placeholder="게임에서 사용할 이름"></div><div class="field"><label for="joinCode">방 코드</label><input id="joinCode" maxlength="6" placeholder="예: A3K9QX" style="text-transform:uppercase;letter-spacing:2px"></div><button class="btn" id="joinBtn" style="width:100%;margin-top:4px">참가 코드로 입장 →</button><p class="sub" style="margin-top:10px">초대 링크로 접속했다면 방 코드가 자동 입력됩니다.</p></div>
-   </div>
-  </section>
-  <section class="panel"><div class="panel-head"><h3>게임 흐름</h3><span class="sub">한 턴은 낮과 밤</span></div><div class="two-col"><div class="status"><strong>☼ 낮</strong><br>장소를 선택해 권력층 자원 1장을 얻고, 순서에 따라 낮 특수 카드 최대 1장을 사용할 수 있습니다.</div><div class="status"><strong>☾ 밤</strong><br>다시 자원 1장을 얻고, 특수 카드를 최대 1장 구매한 뒤 밤 특수 카드 최대 1장을 사용할 수 있습니다.</div></div><p class="sub">모든 권력층 자원은 1점입니다. 특수 카드를 구매하면 그 비용만큼 지지 점수가 줄어듭니다. 최종 점수는 남은 시민·지식인·조직원·상류층 자원의 합계입니다.</p></section>
- </main>
- <aside class="sidegrid"><section class="panel"><div class="panel-head"><h3>플레이 테스트 안내</h3></div><div class="sub" style="line-height:1.9">• 6인 방은 계층별 장소 경쟁이 치열합니다.<br>• 10인 방은 장소 수용 인원과 시장 크기가 커집니다.<br>• 강탈과 협박은 상대의 점수에 직접 영향을 줍니다.<br>• 특수 카드는 구매한 뒤 손패에 보관됩니다.<br>• 방 상태는 메모리에 저장됩니다. 서버가 재시작되면 방이 사라질 수 있습니다.</div></section><section class="panel"><div class="panel-head"><h3>계층 자원</h3></div><div class="resource-badges" style="gap:8px"><span class="rbadge rC">● C · 시민</span><span class="rbadge rI">● I · 지식인</span><span class="rbadge rO">● O · 조직원</span><span class="rbadge rE">● E · 상류층</span></div><p class="sub" style="margin-top:12px">특수 카드의 비용은 같은 계열의 자원을 중심으로 구성됩니다. 시청은 강력하지만 인원이 제한된 장소입니다.</p></section></aside>
-</div>
-<div id="gameScreen" class="hidden">
- <div class="phasebar"><span class="turnmark" id="turnMark">TURN 1 / 10</span><div class="phase-title" id="phaseTitle">대기 중</div><span class="pill" id="phaseHint">플레이어를 기다립니다</span><span class="connection" id="roomConn"><span></span>실시간 동기화</span></div>
- <div class="stepper"><span class="step" data-phase="dayChoose">01 · 낮 장소</span><span class="step" data-phase="dayActions">02 · 낮 행동</span><span class="step" data-phase="nightChoose">03 · 밤 장소</span><span class="step" data-phase="nightActions">04 · 밤 행동</span><span class="step" data-phase="finished">05 · 결과</span></div>
- <div class="grid">
-  <main>
-   <section class="panel" id="roomPanel">
-    <div class="panel-head"><h3 id="mainPanelTitle">정치판</h3><span class="eyebrow" id="phaseEyebrow">ROOM</span></div>
-    <div id="roomSummary" class="sub" style="margin-bottom:13px"></div>
-    <div id="phaseContent"></div>
-   </section>
-   <section class="panel"><div class="panel-head"><h3>나의 자원</h3><span class="sub" id="myScoreLabel">지지 포인트 0</span></div><div class="myresources" id="myResources"></div><div class="panel-head" style="margin-top:20px"><h3>내 특수 카드</h3><span class="sub" id="handCount">0 / 4장</span></div><div id="myHand" class="cards-grid"></div></section>
+<body data-theme="day">
+  <a class="skip-link" href="#main">게임판으로 건너뛰기</a>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Be The Mayor 처음 화면"><span class="crest" aria-hidden="true">♜</span><span>BE THE <b>MAYOR</b><small>시장 쟁탈전</small></span></a>
+    <div class="turn-status" id="turnStatus"><span class="eyebrow">도시의 다음 시장은 누구인가</span></div>
+    <nav class="top-actions" aria-label="게임 메뉴">
+      <span class="connection" id="connection" role="status">연결 중</span>
+      <button class="btn quiet" id="inviteTop" hidden>초대 <span id="roomCode"></span></button>
+      <button class="btn quiet" data-dialog="rulesDialog">규칙</button>
+      <button class="btn quiet" data-dialog="settingsDialog">설정</button>
+    </nav>
+  </header>
+  <main id="main">
+    <p id="serverNotice" class="server-notice" role="status" hidden>화면 미리보기입니다. 게임 서버에서 이 화면을 열면 방을 만들거나 참가할 수 있습니다.</p>
+    <noscript><p class="server-notice">게임을 시작하려면 자바스크립트를 허용한 브라우저에서 게임 서버를 열어 주세요.</p></noscript>
+    <section id="entry" class="entry">
+      <div class="entry-story"><span class="eyebrow">정치 전략 카드게임 · 2–10명</span><h1>이 도시의<br>주인이 <em>되어라.</em></h1><p>지지를 모으고, 권력을 움직이고, 판을 뒤집으세요.<br>열 번의 낮과 밤. 마지막에 남는 것은 당신의 선택입니다.</p><div id="entryCity" class="entry-city" aria-hidden="true"></div><div class="entry-stats"><span><b>18</b> 특수 카드</span><span><b>4</b> 권력층</span><span><b>10</b> 선거의 턴</span></div></div>
+      <div class="entry-forms"><span class="eyebrow">선거 캠프에 오신 것을 환영합니다</span><h2>당신의 캠페인을 시작하세요</h2>
+        <label class="field">후보자 이름<input id="candidateName" maxlength="20" placeholder="게임에서 사용할 이름" autocomplete="nickname"></label>
+        <form id="createForm"><fieldset><legend>새로운 선거 열기</legend><div class="mode-select"><label><input type="radio" name="mode" value="6" checked><span><b>6인 방</b><small>치열한 지역구 경쟁</small></span></label><label><input type="radio" name="mode" value="10"><span><b>10인 방</b><small>더 큰 정치의 무대</small></span></label></div><button class="btn primary wide" id="createBtn">새 방 만들기 <span aria-hidden="true">→</span></button></fieldset></form>
+        <form id="joinForm"><label class="field">초대받은 방 코드<input id="joinCode" maxlength="6" pattern="[A-Za-z0-9]{6}" placeholder="6자리 코드" required autocomplete="off"></label><button class="btn wide" id="joinBtn">참가 코드로 입장</button></form>
+        <p class="muted small">최소 2명부터 시작할 수 있습니다. 방과 게임 기록은 서버 재시작 시 초기화됩니다.</p>
+      </div>
+    </section>
+    <section id="game" hidden>
+      <div class="campaign-bar"><div id="myResources" class="my-resources"></div><div class="campaign-actions"><button class="btn quiet" id="playersToggle" aria-expanded="false" aria-controls="candidates">후보 현황</button><button class="btn quiet" id="logToggle" aria-expanded="false" aria-controls="logPanel">선거 기록 <span aria-hidden="true">↗</span></button></div></div>
+      <div class="arena">
+        <aside class="candidates" id="candidates"><div class="section-heading"><h2>후보 현황</h2><span id="playerCount" class="muted small"></span></div><p class="muted small">지지도가 곧 당신의 권력입니다.</p><div id="playerList"></div></aside>
+        <div class="battlefield">
+          <section class="board" aria-labelledby="phaseTitle"><div class="board-top"><div><span class="eyebrow" id="phaseStep"></span><h2 id="phaseTitle"></h2></div><ol class="phase-track" aria-label="턴 진행"><li data-phase="dayChoose">낮 장소</li><li data-phase="dayActions">낮 행동</li><li data-phase="nightChoose">밤 장소</li><li data-phase="nightActions">밤 행동</li></ol></div><div id="phaseContent"></div></section>
+          <section class="market-section" aria-labelledby="marketTitle"><div class="section-heading"><h2 id="marketTitle">공개 시장 <span class="muted small" id="marketCount"></span></h2><span class="muted small">검토 후 구매 · 밤에 최대 1장</span></div><div id="market" class="market"></div></section>
+        </div>
+        <section class="hand-section" aria-labelledby="handTitle"><div class="hand-heading"><div><span class="eyebrow">당신만의 정치적 한 수</span><h2 id="handTitle">내 손패 <span id="handCount" class="muted small"></span></h2></div><p class="muted small">카드를 선택해 효과를 확인하세요.<br>밝게 빛나는 카드는 지금 사용할 수 있습니다.</p></div><div id="hand" class="hand"></div></section>
+      </div>
+    </section>
   </main>
-  <aside class="sidegrid">
-   <section class="panel"><div class="panel-head"><h3>후보 지지 현황</h3><span class="eyebrow">SCOREBOARD</span></div><div class="players" id="playerList"></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn" id="copyInvite" style="flex:1">초대 링크 복사</button><button class="btn danger" id="leaveBtn">나가기</button></div><div class="field" style="margin-top:10px"><label>방 참가 코드</label><div class="roomline"><span class="roomcode" id="roomCodeLabel">------</span><button class="btn small" id="copyCode">복사</button></div></div></section>
-   <section class="panel"><div class="panel-head"><h3>도시의 소문</h3><span class="sub">행동 기록</span></div><div id="eventLog" class="log"></div></section>
-  </aside>
- </div>
-</div>
-<div class="footer">시장 쟁탈전 · Playtest build 0.2 · 규칙과 카드 밸런스는 테스트용 초안입니다.</div>
-</div>
-<div id="rulesOverlay" class="overlay hidden"><div class="modal"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><h2>간단 규칙서</h2><button class="btn" id="closeRules">닫기 ✕</button></div><h3>1. 장소 선택</h3><p>낮과 밤 각각 장소 하나를 선택해 자원을 1장 얻습니다. 광장은 시민, 상가 인근은 지식인, 술집은 조직원, 시청은 상류층 자원을 줍니다. 장소 수용 인원보다 많이 선택하면 우선권에서 밀린 플레이어는 시민 자원을 받습니다.</p><h3>2. 낮과 밤 행동</h3><p>낮에는 낮 카드 최대 1장을 사용할 수 있습니다. 밤에는 공개 시장에서 특수 카드 최대 1장을 구매한 뒤, 밤 카드 최대 1장을 사용할 수 있습니다. 방장부터 시작해 매 턴 우선권이 한 자리씩 이동합니다. 카드는 구매 즉시 비용을 지불하며, 사용한 카드는 버려집니다.</p><h3>3. 비용과 지지 포인트</h3><p>C는 시민, I는 지식인, O는 조직원, E는 상류층입니다. 예를 들어 I2+C1은 지식인 2장과 시민 1장을 뜻합니다. 각 자원은 1점이며, 특수 카드 구매 비용으로 지불하면 점수에서 빠집니다. 특수 카드 보유 자체는 점수가 아닙니다.</p><h3>4. 승리</h3><p>10번째 밤 행동이 끝나면 자원 네 종류의 합계가 가장 높은 사람이 승리합니다. 동점이면 공동 승리입니다. 방은 6인 또는 10인으로 만들 수 있으며, 게임 도중 새 참가자는 들어올 수 없습니다.</p><h3>5. 현재 시제품 규칙</h3><p>카드 덱은 18종류이며, 6인 방은 각 2장, 10인 방은 각 3장으로 구성됩니다. 시장은 6인 방 4장, 10인 방 5장을 공개합니다. 카드 손패 한도는 4장입니다. 이 버전은 기능과 밸런스를 점검하기 위한 테스트용입니다.</p></div></div>
-<div id="toast" class="toast hidden"></div>
-<script src="/socket.io/socket.io.js"></script>
-<script>
-(() => {
+  <aside id="logPanel" class="log-panel" hidden aria-label="선거 기록"><div class="section-heading"><h2>선거 기록</h2><button class="btn quiet" id="closeLog" aria-label="선거 기록 닫기">닫기 ×</button></div><p class="muted small">새로운 기록이 위에 표시됩니다.</p><ol id="eventLog"></ol></aside>
+  <dialog id="rulesDialog" aria-labelledby="rulesTitle"><div class="section-heading"><span class="eyebrow">선거 안내서</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="rulesTitle">도시를 움직이는 네 가지 힘</h2><p>시민 · 지식인 · 조직원 · 상류층 자원은 각각 지지도 1점입니다. 10번째 밤이 끝났을 때 자원 합계가 가장 높은 후보가 당선됩니다. 동점자는 공동 당선됩니다.</p><h3>낮: 지지를 모으세요</h3><p>장소에서 자원 1개를 얻은 뒤, 순서에 따라 낮 특수 카드를 최대 1장 사용합니다.</p><h3>밤: 다음 수를 준비하세요</h3><p>장소에서 자원 1개를 얻고, 특수 카드를 최대 1장 구매한 뒤 밤 카드를 최대 1장 사용합니다. 구매 비용은 자원과 지지도에서 차감됩니다. 구매와 사용은 건너뛸 수 있습니다.</p><h3>장소와 우선권</h3><p>광장은 무제한입니다. 상가 · 술집 · 시청은 6인 방에서 각각 2 · 2 · 1명, 10인 방에서 4 · 3 · 2명을 수용합니다. 수용 인원 초과 시 턴마다 회전하는 우선권을 적용하며, 밀린 후보는 시민 자원을 얻습니다. 봉쇄된 시청을 선택해도 시민 자원을 받습니다. 선택 확정 후에는 바꿀 수 없습니다.</p><h3>특수 카드와 손패</h3><p>손패 한도는 4장입니다. 사용 시점과 효과는 카드에 표시됩니다. 밀실 거래로 받은 카드는 다음 턴부터 사용할 수 있습니다. 다른 후보에게는 손패 장수만 공개됩니다.</p><h3>연결과 게임 기록</h3><p>연결이 끊기면 서버에서 해당 후보의 행동을 자동으로 건너뜁니다. 같은 브라우저에서 초대 링크를 다시 열면 기존 후보로 재접속합니다. 서버가 재시작되면 방이 사라집니다.</p></dialog>
+  <dialog id="settingsDialog" aria-labelledby="settingsTitle"><div class="section-heading"><span class="eyebrow">플레이 환경</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="settingsTitle">설정</h2><label class="setting"><input type="checkbox" id="reduceMotion">애니메이션 줄이기</label><p class="muted">운영체제의 모션 감소 설정도 자동으로 적용됩니다.</p><button class="btn danger" id="leaveBtn" hidden>방 나가기</button><p class="muted small">진행 중인 방을 나가면 후보가 연결 해제 상태로 표시됩니다.</p></dialog>
+  <dialog id="inviteDialog" aria-labelledby="inviteTitle"><div class="section-heading"><span class="eyebrow">함께하는 선거</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="inviteTitle">후보자 초대</h2><p class="room-code" id="inviteCode"></p><label class="field">초대 링크<input id="inviteUrl" readonly></label><button class="btn primary" id="copyInvite">링크 복사</button><button class="btn" id="copyCode">코드 복사</button></dialog>
+  <div id="phaseTransition" aria-hidden="true"></div><div id="effects" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
 'use strict';
-const socket=io();
-const $=id=>document.getElementById(id);
-const R={C:'시민',I:'지식인',O:'조직원',E:'상류층'};
-const RI={C:'●',I:'◆',O:'▲',E:'★'};
-const LI={plaza:'🏛️',shops:'📚',tavern:'🍺',cityhall:'🏢'};
-let playerId=localStorage.getItem('mayorPlayerId');if(!playerId){playerId=(crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2));localStorage.setItem('mayorPlayerId',playerId)}
-let state=null, chosenMax=6, selectedDayCard=null, selectedNightCard=null, toastTimer=null;
-const urlRoom=new URLSearchParams(location.search).get('room');
-if(urlRoom)$('joinCode').value=urlRoom.toUpperCase();
-function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function fmtCost(cost){return Object.entries(cost||{}).filter(([k,v])=>v>0).map(([k,v])=>`${k}${v}`).join(' + ')||'무료';}
-function resTotal(p){return p.score??Object.values(p.resources||{}).reduce((a,b)=>a+b,0)}
-function notify(message,type='ok'){const el=$('toast');el.textContent=message;el.className='toast '+type;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.className='toast hidden',3300)}
-function myName(){return $('createName').value.trim()||$('joinName').value.trim()||'후보 '+Math.floor(Math.random()*90+10)}
-function currentInvite(){return state?location.origin+location.pathname+'?room='+state.code:''}
-function copyText(text){if(!text)return; if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(()=>notify('복사했습니다.')).catch(()=>fallbackCopy(text));else fallbackCopy(text)}
-function fallbackCopy(text){const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();try{document.execCommand('copy');notify('복사했습니다.')}catch(e){notify('복사할 수 없습니다. 링크를 직접 선택해 주세요.','error')}t.remove()}
-function cardMarkup(inst, opts={}){const c=inst.card;const cost=fmtCost(c.cost);const family=R[c.family]||c.family;return `<div class="playing-card ${opts.selected?'selected':''}"><div class="card-top"><span class="family ${c.family}">${RI[c.family]||''} ${family}</span><span class="timing">${c.timing==='day'?'☼ 낮':'☾ 밤'}</span></div><h4>${escapeHtml(c.name)}</h4><span class="cost">${cost}</span><div class="card-desc">${escapeHtml(c.desc)}</div>${opts.button?`<button class="btn ${opts.selected?'primary':''}" data-card-select="${escapeHtml(inst.instanceId)}">${opts.selected?'선택됨 ✓':'카드 선택'}</button>`:''}</div>`}
-function resourceTiles(){if(!state?.me)return;$('myResources').innerHTML=Object.keys(R).map(k=>`<div class="resource-tile"><span class="r${k}">${RI[k]} ${R[k]}</span><strong class="r${k}">${state.me.resources[k]}</strong></div>`).join('');$('myScoreLabel').textContent='지지 포인트 '+state.me.score+'점';$('handCount').textContent=`${state.me.hand.length} / 4장`;const hand=state.me.hand;if(!hand.length)$('myHand').innerHTML='<div class="empty" style="grid-column:1/-1">아직 보유한 특수 카드가 없습니다.<br>밤에 공개 시장에서 카드를 구매해 보세요.</div>';else $('myHand').innerHTML=hand.map(i=>cardMarkup(i)).join('');}
-function renderPlayers(){if(!state)return;const sorted=[...state.players].sort((a,b)=>b.score-a.score);$('playerList').innerHTML=sorted.map((p,i)=>`<div class="player"><div class="avatar">${i+1}</div><div class="player-main"><div class="player-name">${escapeHtml(p.name)} ${p.id===state.hostId?'<span class="family E">방장</span>':''} ${p.id===state.me.id?'<span class="family C">나</span>':''}</div><div class="player-meta">${p.connected?'● 접속 중':'○ 연결 끊김'} · 특수 카드 ${p.handCount}장${p.protected?' · 보호 중':''}</div><div class="resource-badges">${Object.keys(R).map(k=>`<span class="rbadge r${k}">${k} ${p.resources[k]}</span>`).join('')}</div></div><div class="score">${p.score}<div style="font-size:9px;color:var(--muted);font-weight:500">지지 포인트</div></div></div>`).join('');}
-function renderLog(){ $('eventLog').innerHTML=(state?.log||[]).map(s=>`<div class="log-item">${escapeHtml(s)}</div>`).join('')||'<div class="empty">아직 기록이 없습니다.</div>'; }
-function renderLocationChoice(){const all=state.players.length,chosen=state.choiceCount||0;const locations=Object.entries(state.locations);const can=state.me.chosen==null;return `<div class="status">${state.phase==='dayChoose'?'☼ 낮':'☾ 밤'} 장소를 선택하세요. <strong>${chosen}/${all}</strong>명이 선택했습니다. 선택은 다른 사람에게 공개되지 않습니다. 수용 인원이 넘으면 우선권이 앞선 후보가 먼저 자리를 차지합니다.</div><div class="locations">${locations.map(([id,l])=>`<button class="location ${state.me.chosen===id?'chosen':''} ${l.closed?'closed':''}" data-location="${id}" ${!can?'disabled':''}><span class="capacity">${l.capacity===Infinity?'제한 없음':`정원 <b>${l.capacity}</b>`}</span><div class="icon">${LI[id]}</div><div class="loc-name">${l.label}</div><div class="loc-resource">${l.closed?'🚫 이번 낮 봉쇄':`${R[l.resource]} 자원 1장`}</div></button>`).join('')}</div>${state.me.chosen?'<div class="status" style="margin-top:12px">선택 완료. 다른 플레이어의 선택을 기다리는 중입니다.</div>':''}`}
-function targetOptions(){return state.players.filter(p=>p.id!==state.me.id).map(p=>`<option value="${p.id}">${escapeHtml(p.name)} · ${p.score}점</option>`).join('')}
-function selectOptions(items, value){return items.map(([k,v])=>`<option value="${k}" ${k===value?'selected':''}>${v}</option>`).join('')}
-function actionControls(c,mode,selectedId){let target='',resource='',market='';if(c.target)target=`<div class="field"><label>대상 후보</label><select id="targetSelect"><option value="">대상 선택</option>${targetOptions()}</select></div>`;if(['steal','destroy'].includes(c.effect))resource=`<div class="field"><label>대상 자원 종류</label><select id="resourceSelect">${selectOptions((c.stealTypes||['C','I','O','E']).map(k=>[k,`${k} · ${R[k]}`]),'C')}</select></div>`;if(c.marketTarget)market=`<div class="field"><label>공개 시장 카드</label><select id="marketSelect"><option value="">카드 선택</option>${state.market.map(m=>`<option value="${m.instanceId}">${escapeHtml(m.card.name)}</option>`).join('')}</select></div>`;if(!target&&!resource&&!market)return '';return `<div class="action-fields">${target}${resource}${market}</div>`;}
-function marketCard(inst){const c=inst.card;const affordable=Object.entries(c.cost||{}).every(([r,n])=>state.me.resources[r]>=n);const full=state.me.hand.length>=4;return `<div class="playing-card"><div class="card-top"><span class="family ${c.family}">${RI[c.family]} ${R[c.family]}</span><span class="timing">${c.timing==='day'?'☼ 낮':'☾ 밤'}</span></div><h4>${escapeHtml(c.name)}</h4><span class="cost">${fmtCost(c.cost)}</span><div class="card-desc">${escapeHtml(c.desc)}</div><button class="btn ${affordable&&!full?'primary':''}" data-buy="${inst.instanceId}" ${(!affordable||full)?'disabled':''}>${full?'손패 가득 참':affordable?'구매하기':'자원 부족'}</button></div>`;}
-function renderDayActions(){const actor=state.actionPlayer;if(!actor)return '<div class="empty">행동 순서를 확인하는 중...</div>';if(actor.id!==state.me.id)return `<div class="status"><strong>${escapeHtml(actor.name)}</strong> 후보가 낮 행동을 결정하고 있습니다. 내 차례가 되면 사용할 특수 카드를 선택할 수 있습니다.</div>`;const cards=state.me.hand.filter(i=>i.card.timing==='day'&&i.usableFromTurn<=state.turn);return `<div class="action-box"><h4>☼ 낮 특수 카드 사용</h4><p class="sub">낮 카드 1장을 사용할 수 있습니다. 카드를 사용하지 않고 넘어가도 됩니다.</p>${cards.length?`<div class="cards-grid" id="dayPlayable">${cards.map(i=>cardMarkup(i,{button:true,selected:selectedDayCard===i.instanceId})).join('')}</div>${selectedDayCard?(()=>{const inst=cards.find(i=>i.instanceId===selectedDayCard);return inst?`${actionControls(inst.card,'day',selectedDayCard)}<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="useDay">선택한 카드 사용</button><button class="btn" id="clearDay">선택 해제</button></div>`:''})():''}`:'<div class="empty">사용할 수 있는 낮 특수 카드가 없습니다.</div>'}<div style="margin-top:12px"><button class="btn" id="skipDay">${cards.length?'카드를 사용하지 않고 넘기기':'낮 행동 완료'}</button></div></div>`;}
-function renderNightActions(){const actor=state.actionPlayer;if(!actor)return '<div class="empty">행동 순서를 확인하는 중...</div>';if(actor.id!==state.me.id)return `<div class="status"><strong>${escapeHtml(actor.name)}</strong> 후보가 밤 구매와 특수 카드 사용을 진행하고 있습니다.</div>`;if(!state.me.nightBought){return `<div class="action-box"><h4>☾ 특수 카드 구매</h4><p class="sub">밤마다 카드 1장을 구매할 수 있습니다. 비용으로 지불한 권력층 자원은 지지 포인트에서 빠집니다. 손패 한도는 4장입니다.</p><div class="cards-grid">${state.market.map(m=>marketCard(m)).join('')}</div><div style="margin-top:12px"><button class="btn" id="skipBuy">구매하지 않고 넘어가기</button></div></div>`;}const cards=state.me.hand.filter(i=>i.card.timing==='night'&&i.usableFromTurn<=state.turn);return `<div class="action-box"><h4>☾ 밤 특수 카드 사용</h4><p class="sub">구매 단계가 끝났습니다. 밤 카드 1장을 사용할 수 있습니다. 방금 구매한 밤 카드도 바로 사용할 수 있습니다.</p>${cards.length?`<div class="cards-grid">${cards.map(i=>cardMarkup(i,{button:true,selected:selectedNightCard===i.instanceId})).join('')}</div>${selectedNightCard?(()=>{const inst=cards.find(i=>i.instanceId===selectedNightCard);return inst?`${actionControls(inst.card,'night',selectedNightCard)}<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" id="useNight">선택한 카드 사용</button><button class="btn" id="clearNight">선택 해제</button></div>`:''})():''}`:'<div class="empty">사용할 수 있는 밤 특수 카드가 없습니다.</div>'}<div style="margin-top:12px"><button class="btn" id="skipNight">${cards.length?'카드를 사용하지 않고 넘기기':'밤 행동 완료'}</button></div></div>`;}
-function renderFinished(){const win=state.winner||[];return `<div class="action-box"><div class="eyebrow">ELECTION RESULTS</div><h2 style="margin:8px 0 10px">🏆 시장 선거 종료</h2><p class="sub">10번째 밤이 끝났습니다. 가장 많은 지지 포인트를 확보한 후보가 승리했습니다.</p><div class="players" style="margin-top:16px">${[...state.players].sort((a,b)=>b.score-a.score).map((p,i)=>`<div class="player"><div class="avatar">${i===0?'♛':i+1}</div><div class="player-main"><div class="player-name">${escapeHtml(p.name)} ${win.some(id=>id.id===p.id)?'<span class="family E">당선</span>':''}</div><div class="player-meta">C ${p.resources.C} · I ${p.resources.I} · O ${p.resources.O} · E ${p.resources.E}</div></div><div class="score">${p.score}점</div></div>`).join('')}</div><p class="sub" style="margin-top:12px">현재 버전은 게임방 재시작 없이 즉시 재경기하는 기능이 없습니다. 새 방을 만들어 테스트해 주세요.</p></div>`;}
-function renderPhase(){if(!state)return;const phase=state.phase;const nameMap={lobby:'대기실',dayChoose:'낮 · 장소 선택',dayActions:'낮 · 특수 카드',nightChoose:'밤 · 장소 선택',nightActions:'밤 · 구매 및 공작',finished:'최종 결과'};$('turnMark').textContent=phase==='lobby'?'LOBBY':`TURN ${state.turn} / 10`;$('phaseTitle').textContent=nameMap[phase]||phase;document.querySelectorAll('.step').forEach(el=>el.classList.toggle('active',el.dataset.phase===phase));const title={'lobby':'참가자 대기실','dayChoose':'낮 장소 선택','dayActions':'낮 행동 순서','nightChoose':'밤 장소 선택','nightActions':'밤 권력 투쟁','finished':'최종 점수'};$('mainPanelTitle').textContent=title[phase]||'게임';$('phaseEyebrow').textContent=phase.toUpperCase();$('roomSummary').textContent=`방 코드 ${state.code} · ${state.players.length}/${state.maxPlayers}명 · ${phase==='lobby'?'시작 대기 중':`턴 ${state.turn} · 우선권 순서 적용`}`;
- let hint='';if(phase==='lobby')hint=state.me.isHost?'참가자를 기다린 뒤 시작하세요':'방장이 게임을 시작하면 진행됩니다';else if(phase==='dayChoose')hint=state.me.chosen?'장소 선택 완료':'낮 장소를 선택하세요';else if(phase==='dayActions')hint=state.actionPlayer?.id===state.me.id?'내 낮 행동 차례':'다른 후보의 행동 중';else if(phase==='nightChoose')hint=state.me.chosen?'장소 선택 완료':'밤 장소를 선택하세요';else if(phase==='nightActions')hint=state.actionPlayer?.id===state.me.id?(state.me.nightBought?'밤 카드 사용 차례':'특수 카드 구매 차례'):'다른 후보의 행동 중';else hint='최종 결과';$('phaseHint').textContent=hint;
- if(phase==='lobby'){$('phaseContent').innerHTML=`<div class="roomline"><div><div class="sub">초대 코드</div><div class="roomcode">${state.code}</div></div><button class="btn" id="copyInviteInline">초대 링크 복사</button></div><div class="shareline" style="margin:12px 0"><input readonly value="${escapeHtml(currentInvite())}" id="inviteInput"><button class="btn small" id="copyInviteInline2">복사</button></div><div class="players" style="margin-top:14px">${state.players.map((p,i)=>`<div class="player"><div class="avatar">${i+1}</div><div class="player-main"><div class="player-name">${escapeHtml(p.name)} ${p.id===state.hostId?'<span class="family E">방장</span>':''} ${p.id===state.me.id?'<span class="family C">나</span>':''}</div><div class="player-meta">${p.connected?'접속 중':'연결 끊김'}</div></div></div>`).join('')}</div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">${state.me.isHost?`<button id="startGame" class="btn primary" ${state.players.length<2?'disabled':''}>게임 시작 (${state.players.length}/${state.maxPlayers})</button>`:'<span class="status" style="margin:0">방장이 게임을 시작할 때까지 기다려 주세요.</span>'}<button class="btn" id="copyRoomCodeInline">방 코드 복사</button></div><p class="sub" style="margin-top:12px">게임은 2명 이상 참가해야 시작할 수 있습니다. 시작 후에는 새 플레이어가 입장할 수 없습니다.</p>`;
- }else if(phase==='dayChoose'||phase==='nightChoose')$('phaseContent').innerHTML=renderLocationChoice();else if(phase==='dayActions')$('phaseContent').innerHTML=renderDayActions();else if(phase==='nightActions')$('phaseContent').innerHTML=renderNightActions();else if(phase==='finished')$('phaseContent').innerHTML=renderFinished();
- $('roomCodeLabel').textContent=state.code;$('shareTop').disabled=false;bindPhaseButtons();}
-function bindPhaseButtons(){document.querySelectorAll('[data-location]').forEach(b=>b.addEventListener('click',()=>socket.emit('chooseLocation',{location:b.dataset.location})));$('startGame')?.addEventListener('click',()=>socket.emit('startGame'));['copyInviteInline','copyInviteInline2'].forEach(id=>$(id)?.addEventListener('click',()=>copyText(currentInvite())));$('copyRoomCodeInline')?.addEventListener('click',()=>copyText(state.code));document.querySelectorAll('[data-card-select]').forEach(b=>b.addEventListener('click',()=>{if(state.phase==='dayActions')selectedDayCard=b.dataset.cardSelect;else selectedNightCard=b.dataset.cardSelect;renderPhase();}));document.querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>{if(!b.disabled)socket.emit('nightPurchase',{cardInstanceId:b.dataset.buy});}));$('skipDay')?.addEventListener('click',()=>{selectedDayCard=null;socket.emit('dayAction',{});});$('clearDay')?.addEventListener('click',()=>{selectedDayCard=null;renderPhase()});$('useDay')?.addEventListener('click',()=>{const selected=state.me.hand.find(i=>i.instanceId===selectedDayCard);if(!selected)return;const payload=actionPayload(selected.card);if(payload===null)return;socket.emit('dayAction',{cardInstanceId:selectedDayCard,...payload});selectedDayCard=null;});$('skipBuy')?.addEventListener('click',()=>socket.emit('nightPurchase',{}));$('skipNight')?.addEventListener('click',()=>{selectedNightCard=null;socket.emit('nightAction',{});});$('clearNight')?.addEventListener('click',()=>{selectedNightCard=null;renderPhase()});$('useNight')?.addEventListener('click',()=>{const selected=state.me.hand.find(i=>i.instanceId===selectedNightCard);if(!selected)return;const payload=actionPayload(selected.card);if(payload===null)return;socket.emit('nightAction',{cardInstanceId:selectedNightCard,...payload});selectedNightCard=null;});}
-function actionPayload(c){const out={};if(c.target){const t=$('targetSelect')?.value;if(!t){notify('대상 후보를 선택해 주세요.','error');return null}out.targetId=t;}if(['steal','destroy'].includes(c.effect)){out.resourceType=$('resourceSelect')?.value||'C';}if(c.marketTarget){const m=$('marketSelect')?.value;if(!m){notify('공개 시장 카드를 선택해 주세요.','error');return null}out.marketInstanceId=m;}return out;}
-function renderAll(){if(!state)return;$('lobbyScreen').classList.add('hidden');$('hero').classList.add('hidden');$('gameScreen').classList.remove('hidden');resourceTiles();renderPlayers();renderLog();renderPhase();}
-socket.on('connect',()=>{$('connection').className='connection connected';$('connection').innerHTML='<span></span>서버 연결됨';if(urlRoom&&!state){socket.emit('joinRoom',{code:urlRoom,name:myName(),playerId});}});
-socket.on('disconnect',()=>{$('connection').className='connection';$('connection').innerHTML='<span></span>연결 끊김';});
-socket.on('roomCreated',d=>{playerId=d.playerId;localStorage.setItem('mayorPlayerId',playerId);history.replaceState({},'',location.pathname+'?room='+d.code);notify('방을 만들었습니다. 초대 링크를 공유하세요.');});
-socket.on('roomJoined',d=>{playerId=d.playerId;localStorage.setItem('mayorPlayerId',playerId);history.replaceState({},'',location.pathname+'?room='+d.code);notify('방에 참가했습니다.');});
-socket.on('state',s=>{state=s;selectedDayCard=null;selectedNightCard=null;renderAll();});
-socket.on('notice',d=>notify(d.message,d.type||'error'));
-$('max6').addEventListener('click',()=>{chosenMax=6;$('max6').classList.add('active');$('max10').classList.remove('active')});$('max10').addEventListener('click',()=>{chosenMax=10;$('max10').classList.add('active');$('max6').classList.remove('active')});$('createBtn').addEventListener('click',()=>{if(!socket.connected)return notify('서버에 연결 중입니다.','error');socket.emit('createRoom',{name:$('createName').value||myName(),playerId,maxPlayers:chosenMax})});$('joinBtn').addEventListener('click',()=>{const code=$('joinCode').value.trim().toUpperCase();if(code.length<4)return notify('방 코드를 입력해 주세요.','error');if(!socket.connected)return notify('서버에 연결 중입니다.','error');socket.emit('joinRoom',{code,name:$('joinName').value||myName(),playerId})});$('joinCode').addEventListener('input',e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,6)});$('shareTop').addEventListener('click',()=>copyText(currentInvite()));$('copyInvite').addEventListener('click',()=>copyText(currentInvite()));$('copyCode').addEventListener('click',()=>copyText(state?.code));$('leaveBtn').addEventListener('click',()=>{socket.emit('leaveRoom');state=null;history.replaceState({},'',location.pathname);$('gameScreen').classList.add('hidden');$('hero').classList.remove('hidden');$('lobbyScreen').classList.remove('hidden');$('shareTop').disabled=true;});$('rulesBtn').addEventListener('click',()=>$('rulesOverlay').classList.remove('hidden'));$('closeRules').addEventListener('click',()=>$('rulesOverlay').classList.add('hidden'));$('rulesOverlay').addEventListener('click',e=>{if(e.target.id==='rulesOverlay')e.currentTarget.classList.add('hidden')});
-})();
-</script>
-</body></html>
+// Presentation only. Card definitions always come from the server state.
+const resources = { C: '시민', I: '지식인', O: '조직원', E: '상류층' };
+const symbols = { C: '◉', I: '▤', O: '◆', E: '♜' };
+const phases = { lobby: '선거 캠프 대기실', dayChoose: '어디에서 지지를 모을까요?', dayActions: '당신의 정책을 펼칠 시간', nightChoose: '도시가 잠든 사이', nightActions: '다음 한 수를 준비하세요', finished: '새로운 시장이 탄생했습니다' };
+const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const costText = cost => Object.entries(cost || {}).filter(([, n]) => n > 0).map(([r, n]) => `${resources[r]} ${n}`).join(' + ') || '무료';
+const isActor = state => state?.actionPlayer?.id === state?.me?.id;
+
+// Original geometric illustrations; no external image dependencies.
+function illustration(family = 'E', seed = '', location = false) {
+  const variant = [...seed].reduce((n, ch) => n + ch.charCodeAt(0), 0) % 3;
+  const skyline = Array.from({ length: 12 }, (_, i) => { const h = 23 + ((i * 37 + variant * 17) % 55); return `<path d="M${i * 25} 150v-${h}h20v${h}"/><path class="lit" d="M${i * 25 + 6} ${156 - h}v12m8-12v12"/>`; }).join('');
+  const drawings = {
+    C: '<path class="paper" d="M96 48h108v65H96z"/><path class="ink" d="M112 62h75m-75 12h48m-48 12h63"/><path class="accent-fill" d="m130 107 53-28v50l-53-13z"/><path class="outline" d="m137 117 5 18h12l-6-22"/><path class="crowd" d="M53 157v-18q12-17 24 0v18m9 0v-28q13-18 26 0v28m63 0v-25q13-18 26 0v25m10 0v-16q12-17 24 0v16"/><g class="accent-fill"><circle cx="65" cy="121" r="8"/><circle cx="99" cy="111" r="9"/><circle cx="188" cy="115" r="9"/><circle cx="223" cy="124" r="8"/></g>',
+    I: '<path class="paper" d="M99 35h85l20 20v77H99z"/><path class="outline" d="M184 35v21h20"/><path class="ink" d="M113 58h52m-52 12h38m-38 12h72m-72 12h61"/><path class="accent-fill" d="M116 121v-12h11v12m9 0V97h11v24m9 0V83h11v38m9 0V73h11v48"/><path class="outline" d="M74 148h154M80 142v-37m-8-5q-10-27 2-29 13-2 10 27z"/>',
+    O: '<path class="silhouette" d="M95 148q0-46 22-58h49q27 20 28 58z"/><circle class="silhouette" cx="141" cy="66" r="23"/><path class="accent-fill" d="m105 63 69-9-12-8-8-17-32 5-5 19z"/><path class="paper" d="m121 109 74-13 9 49-75 12z"/><path class="ink" d="m121 109 43 21 31-34"/><path class="outline" d="m65 81 15-15m129 2 14 13"/>',
+    E: '<path class="paper" d="M104 140V46l48-24 48 24v94z"/><path class="accent-fill" d="M148 22h6v118h-6z"/><path class="ink" d="M115 55h23m-23 14h23m-23 14h23m-23 14h23m-23 14h23m26-56h24m-24 14h24m-24 14h24m-24 14h24m-24 14h24"/><path class="silhouette" d="M65 146v-38l30-13v51m112 0V94l28 15v37"/><path class="outline" d="M57 149h187"/>'
+  };
+  const townhall = '<path class="paper" d="m69 78 81-43 81 43zM82 86h136v58H82z"/><path class="ink" d="M91 139V91m27 48V91m32 48V91m32 48V91m27 48V91"/><path class="accent-fill" d="M66 147h169v7H66zM150 20v22m0-22h22v12h-22"/>';
+  return `<svg class="art art-${family}" viewBox="0 0 300 170" aria-hidden="true" focusable="false"><circle class="sun" cx="217" cy="52" r="35"/><g class="skyline">${skyline}</g><path class="rays" d="M0 166 300 20M0 126 300 0M25 170 300 60"/>${location && family === 'E' ? townhall : drawings[family] || drawings.E}<path class="ground" d="M0 157h300M0 162h300"/><text x="14" y="23" class="art-index">${location ? '도시 구역' : '선거 기록'} / 0${variant + 1}</text></svg>`;
+}
+function useReason(state, inst, connected = true) {
+  if (!connected) return '서버에 다시 연결 중입니다';
+  if (!['dayActions', 'nightActions'].includes(state.phase)) return '카드 행동 단계에 사용합니다';
+  if (!isActor(state)) return `${state.actionPlayer?.name || '다른 후보'}님의 차례입니다`;
+  if (state.phase === 'nightActions' && !state.me.nightBought) return '구매를 먼저 완료하거나 건너뛰세요';
+  if (inst.usableFromTurn > state.turn) return `${inst.usableFromTurn}턴부터 사용 가능`;
+  if (inst.card.timing !== (state.phase === 'dayActions' ? 'day' : 'night')) return `${inst.card.timing === 'day' ? '낮' : '밤'} 행동에 사용 가능`;
+  return '';
+}
+function purchaseReason(state, inst, connected = true) {
+  if (!connected) return '서버에 다시 연결 중입니다';
+  if (state.phase !== 'nightActions') return '밤 구매 단계에 구매 가능';
+  if (!isActor(state)) return `${state.actionPlayer?.name || '다른 후보'}님의 차례입니다`;
+  if (state.me.nightBought) return '이번 밤 구매를 완료했습니다';
+  if (state.me.hand.length >= 4) return '손패 한도 4장에 도달했습니다';
+  const missing = Object.entries(inst.card.cost).filter(([r, n]) => state.me.resources[r] < n).map(([r, n]) => `${resources[r]} ${n - state.me.resources[r]}`);
+  return missing.length ? `${missing.join(' + ')} 부족` : '';
+}
+function cardMarkup(inst, { source = 'hand', selected = false, reason = '', index = 0, total = 1 } = {}) {
+  const c = inst.card;
+  return `<button type="button" class="game-card family-${escapeHtml(c.family)} ${reason ? 'unavailable' : 'playable'} ${selected ? 'selected' : ''}" data-card="${escapeHtml(inst.instanceId)}" data-source="${source}" aria-pressed="${selected}" aria-label="${escapeHtml(c.name)}, ${escapeHtml(reason || (source === 'market' ? '구매 가능' : '사용 가능'))}. 상세 보기" style="--tilt:${(index - (total - 1) / 2) * 3}deg;--lift:${Math.abs(index - (total - 1) / 2) * 5}px"><span class="card-meta"><span>${symbols[c.family] || ''} ${resources[c.family] || ''}</span><span>${c.timing === 'day' ? '☀ 낮' : '☾ 밤'}</span></span><span class="card-name">${escapeHtml(c.name)}</span><span class="card-art">${illustration(c.family, c.id)}</span><span class="card-description">${escapeHtml(c.desc)}</span><span class="card-cost"><small>구매 비용</small> ${escapeHtml(costText(c.cost))}</span><span class="card-status">${escapeHtml(reason || (source === 'market' ? '구매 가능 · 눌러서 검토' : '사용 가능 · 눌러서 선택'))}</span></button>`;
+}
+function playerMarkup(p, state) {
+  const me = p.id === state.me.id, active = p.id === state.actionPlayer?.id && /Actions$/.test(state.phase);
+  return `<article class="candidate ${me ? 'self' : ''} ${active ? 'active' : ''}" aria-label="${escapeHtml(p.name)}${active ? ', 현재 행동 중' : ''}"><div class="candidate-top"><span class="avatar" aria-hidden="true">${escapeHtml(p.name.slice(0, 1))}</span><div class="candidate-name"><b>${escapeHtml(p.name)}</b><span>${me ? '내 후보 · ' : ''}${p.id === state.hostId ? '방장 · ' : ''}${p.connected ? '접속 중' : '연결 끊김'}</span></div><span class="candidate-score">${p.score}<small>지지도</small></span></div><div class="resource-row">${Object.entries(resources).map(([r, name]) => `<span class="text-${r}" title="${name}" aria-label="${name} ${p.resources[r]}">${symbols[r]} ${p.resources[r]}</span>`).join('')}</div><div class="candidate-foot"><span>특수 카드 ${p.handCount}장</span><span>${p.protected ? '◈ 강탈 보호' : active ? '● 행동 중' : ''}</span></div></article>`;
+}
+
+const esc = escapeHtml;
+
+const $ = id => document.getElementById(id);
+const storage = {
+  get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+  set(key, value) { try { localStorage.setItem(key, value); } catch { /* Private browsing may deny persistence. */ } }
+};
+const hasTransport = typeof window.io === 'function';
+const socket = hasTransport ? window.io() : { connected: false, on() {}, emit() {}, disconnect() {}, connect() {} };
+let state = null, selected = null, pending = null, pendingTimer, toastTimer;
+let targets = {}, joined = false;
+let playerId = storage.get('mayorPlayerId') || '';
+let roomCode = new URLSearchParams(location.search).get('room')?.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6) || '';
+const candidateName = () => $('candidateName').value.trim() || storage.get('mayorName') || '무소속 후보';
+const connected = () => socket.connected && joined;
+const blocked = () => !!pending || !connected();
+const inviteUrl = () => `${location.origin}${location.pathname}?room=${state?.code || roomCode}`;
+const selectedCard = () => selected && (selected.source === 'hand' ? state?.me.hand : state?.market)?.find(i => i.instanceId === selected.id);
+const phaseNames = { lobby: '대기실', dayChoose: '낮 · 장소 선택', dayActions: '낮 · 카드 사용', nightChoose: '밤 · 장소 선택', nightActions: '밤 · 구매 및 행동', finished: '선거 종료' };
+
+function notify(message, error = false) {
+  clearTimeout(toastTimer);
+  $('toast').textContent = message;
+  $('toast').className = `toast${error ? ' error' : ''}`;
+  $('toast').hidden = false;
+  toastTimer = setTimeout(() => { $('toast').hidden = true; }, 4500);
+}
+function clearPending() { clearTimeout(pendingTimer); pending = null; }
+function request(event, payload = {}) {
+  if (!socket.connected || pending || (state && !joined && event !== 'joinRoom')) return;
+  pending = { event, payload, turn: state?.turn, phase: state?.phase, actor: state?.actionPlayer?.id };
+  pendingTimer = setTimeout(() => {
+    clearPending();
+    notify('응답이 지연되어 상태를 다시 확인합니다. 요청을 자동으로 반복하지 않습니다.', true);
+    socket.disconnect(); socket.connect();
+  }, 8000);
+  render();
+  socket.emit(event, payload);
+}
+function confirmed(s, p) {
+  switch (p.event) {
+    case 'createRoom': case 'joinRoom': return joined;
+    case 'startGame': return s.phase !== 'lobby';
+    case 'chooseLocation': return !!s.me.chosen || s.phase !== p.phase || s.turn !== p.turn;
+    case 'nightPurchase': return s.me.nightBought || s.phase !== p.phase || s.turn !== p.turn;
+    case 'dayAction': case 'nightAction': return s.actionPlayer?.id !== p.actor || s.phase !== p.phase || s.turn !== p.turn || (p.event === 'dayAction' ? s.me.dayDone : s.me.nightDone);
+    default: return false;
+  }
+}
+function ghostCard(id) {
+  const el = [...document.querySelectorAll('#hand [data-card]')].find(node => node.dataset.card === id);
+  if (!el) return;
+  const rect = el.getBoundingClientRect(), clone = el.cloneNode(true);
+  clone.className += ' card-ghost'; clone.removeAttribute('data-card'); clone.tabIndex = -1;
+  Object.assign(clone.style, { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, maxWidth: 'none' });
+  $('effects').append(clone);
+  setTimeout(() => clone.remove(), 650);
+}
+function onState(next) {
+  const before = state, sent = pending;
+  let boughtId;
+  if (sent && confirmed(next, sent)) {
+    const id = sent.payload.cardInstanceId;
+    if (id && sent.event === 'nightPurchase' && next.me.hand.some(i => i.instanceId === id)) {
+      boughtId = id; notify('구매 완료. 비용이 반영되고 카드가 손패에 추가됐습니다.'); selected = null;
+    } else if (id && ['dayAction', 'nightAction'].includes(sent.event) && !next.me.hand.some(i => i.instanceId === id)) {
+      ghostCard(id); notify('카드 사용이 서버에 반영됐습니다.'); selected = null;
+    }
+    clearPending();
+  }
+  state = next;
+  if (selected && !selectedCard()) { selected = null; targets = {}; }
+  if (targets.targetId && !state.players.some(p => p.id === targets.targetId && p.id !== state.me.id)) targets.targetId = '';
+  if (targets.marketInstanceId && !state.market.some(i => i.instanceId === targets.marketInstanceId)) targets.marketInstanceId = '';
+  const night = state.phase.startsWith('night');
+  const previousNight = before?.phase.startsWith('night');
+  document.body.dataset.theme = night ? 'night' : 'day';
+  if (before && before.started && state.started && previousNight !== night && state.phase !== 'finished') {
+    $('phaseTransition').classList.remove('animate');
+    void $('phaseTransition').offsetWidth;
+    $('phaseTransition').classList.add('animate');
+  }
+  render();
+  if (!before || before.phase !== state.phase || before.actionPlayer?.id !== state.actionPlayer?.id) {
+    $('announcement').textContent = `${state.turn}턴, ${phaseNames[state.phase]}. ${actorText()}`;
+  }
+  if (boughtId) {
+    [...$('hand').querySelectorAll('[data-card]')].find(el => el.dataset.card === boughtId)?.classList.add('card-arrive');
+    $('myResources').classList.remove('resource-spend'); void $('myResources').offsetWidth; $('myResources').classList.add('resource-spend');
+  }
+}
+function actorText() {
+  if (!connected()) return '서버 연결을 복구하고 있습니다';
+  if (/Choose$/.test(state.phase)) return state.me.chosen ? '선택 완료 · 다른 후보를 기다리는 중' : '모든 후보가 장소를 선택합니다';
+  if (/Actions$/.test(state.phase)) return isActor(state) ? '당신의 차례입니다' : `${state.actionPlayer?.name || '다른 후보'}님의 차례입니다`;
+  return state.phase === 'lobby' ? '후보자들이 모이고 있습니다' : '최종 개표 완료';
+}
+function preserveFocus(fn) {
+  const active = document.activeElement;
+  const id = active?.id, card = active?.dataset.card, source = active?.dataset.source, locationId = active?.dataset.location;
+  fn();
+  let replacement = id && $(id);
+  if (card) replacement = [...document.querySelectorAll('[data-card]')].find(n => n.dataset.card === card && n.dataset.source === source);
+  if (locationId) replacement = [...document.querySelectorAll('[data-location]')].find(n => n.dataset.location === locationId);
+  if (replacement && replacement !== active && !replacement.disabled) replacement.focus({ preventScroll: true });
+}
+function render() {
+  $('createBtn').disabled = $('joinBtn').disabled = !socket.connected || !!pending;
+  if (!state) return;
+  preserveFocus(() => {
+    $('entry').hidden = true; $('game').hidden = false; $('inviteTop').hidden = false; $('leaveBtn').hidden = false;
+    $('roomCode').textContent = state.code;
+    $('turnStatus').innerHTML = `<div><strong>${state.turn}<small> / 10</small></strong> ${esc(phaseNames[state.phase])}</div><span class="actor ${isActor(state) ? 'my-turn' : ''}">${esc(actorText())}</span>`;
+    $('myResources').innerHTML = `<span class="resource-total">내 지지도 <b>${state.me.score}</b></span>${Object.entries(resources).map(([r, label]) => `<span class="resource-item text-${r}">${symbols[r]} ${label}<b>${state.me.resources[r]}</b></span>`).join('')}`;
+    $('playerCount').textContent = `${state.players.length} / ${state.maxPlayers}명`;
+    $('playerList').innerHTML = state.players.map(p => playerMarkup(p, state)).join('');
+    $('phaseTitle').textContent = phases[state.phase];
+    $('phaseStep').textContent = state.phase === 'lobby' ? '당신의 선거 캠프' : state.phase === 'finished' ? '최종 개표 결과' : `${state.phase.startsWith('night') ? '☾ 밤의 정치' : '☀ 낮의 캠페인'} · ${state.turn}번째 턴`;
+    document.querySelectorAll('[data-phase]').forEach(el => { el.classList.toggle('current', el.dataset.phase === state.phase); if (el.dataset.phase === state.phase) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current'); });
+    $('phaseContent').innerHTML = phaseMarkup() + detailMarkup();
+    $('marketCount').textContent = `${state.market.length}장`;
+    $('market').innerHTML = state.market.map((inst, index) => cardMarkup(inst, { source: 'market', index, selected: selected?.source === 'market' && selected.id === inst.instanceId, reason: purchaseReason(state, inst, connected()) })).join('');
+    $('handCount').textContent = `${state.me.hand.length} / 4장`;
+    $('hand').innerHTML = state.me.hand.length ? state.me.hand.map((inst, index) => cardMarkup(inst, { index, total: state.me.hand.length, selected: selected?.source === 'hand' && selected.id === inst.instanceId, reason: useReason(state, inst, connected()) })).join('') : '<div class="hand-empty"><span class="card-back" aria-hidden="true">♜</span><span><b>아직 꺼내지 않은 당신의 한 수</b>밤에 공개 시장에서 특수 카드를 확보하세요.</span></div>';
+    $('eventLog').innerHTML = state.log.map(line => `<li>${esc(line)}</li>`).join('');
+  });
+}
+function phaseMarkup() {
+  const disabled = blocked() ? 'disabled' : '';
+  if (state.phase === 'lobby') return `<div class="lobby-content"><div><span class="eyebrow">초대 코드</span><p class="room-code">${esc(state.code)}</p><button class="btn" data-invite>후보자 초대하기 ↗</button></div><div class="lobby-start"><h3>${state.players.length}명의 후보가 모였습니다</h3><p>이 도시를 바꿀 경쟁자를 초대하세요.</p>${state.me.isHost ? `<button class="btn primary" id="startGame" ${disabled || (state.players.length < 2 ? 'disabled' : '')}>선거 시작하기 →</button><p>${state.players.length < 2 ? '최소 2명이 참가하면 시작할 수 있습니다.' : '참가자들이 준비되었다면 시작하세요.'}</p>` : '<p>방장이 선거를 시작할 때까지 기다려 주세요.</p>'}</div></div>`;
+  if (/Choose$/.test(state.phase)) return `<p class="phase-note">각 장소에서 자원 1개를 얻습니다. <b>${state.choiceCount} / ${state.players.length}명 선택</b> · 선택은 비공개입니다.</p><div class="locations">${Object.entries(state.locations).map(([id, loc]) => `<button class="location family-${esc(loc.resource)} ${state.me.chosen === id ? 'chosen' : ''} ${loc.closed ? 'closed' : ''}" data-location="${esc(id)}" ${disabled || (state.me.chosen ? 'disabled' : '')} aria-pressed="${state.me.chosen === id}" aria-label="${esc(loc.label)}, ${loc.closed ? '폐쇄, 시민 자원 1개 획득' : `${resources[loc.resource]} 자원 1개`}, ${loc.capacity == null ? '정원 무제한' : `정원 ${loc.capacity}명`}">${illustration(loc.resource, id, true)}<strong>${esc(loc.label)}</strong><span class="location-resource">${loc.closed ? '봉쇄됨 · 시민 1개 획득' : `${symbols[loc.resource]} ${resources[loc.resource]} +1`}</span><span class="capacity">${loc.capacity == null || loc.capacity === Infinity ? '수용 인원 무제한' : `수용 인원 ${loc.capacity}명 · 초과 시 시민 +1`}</span></button>`).join('')}</div>${state.me.chosen ? '<p class="waiting">✓ 선택을 확정했습니다. 다른 후보의 선택을 기다립니다.</p>' : pending ? '<p class="waiting">선택을 서버에 전달하고 있습니다…</p>' : '<p class="phase-note" style="margin:10px 0 0">정원이 초과되면 이번 턴의 우선권을 적용합니다. 선택 확정 후 변경할 수 없습니다.</p>'}`;
+  if (state.phase === 'finished') {
+    const winners = new Set(state.winner.map(w => w.id));
+    return `<div class="results"><div class="victory">♛ ${state.winner.map(w => esc(w.name)).join(' · ')} ${state.winner.length > 1 ? '공동 당선' : '당선'}</div><p class="muted small">10번째 밤이 끝났습니다. 최종 지지도는 남은 네 자원의 합계입니다.</p><ol class="ranking">${[...state.players].sort((a,b) => b.score - a.score).map(p => `<li class="${winners.has(p.id) ? 'winner' : ''}"><span>${winners.has(p.id) ? '♛ ' : ''}${esc(p.name)}${p.id === state.me.id ? ' (나)' : ''}</span><b>${p.score}점</b></li>`).join('')}</ol><button class="btn primary" id="newGame">새 방을 만들어 다시 시작</button></div>`;
+  }
+  const mine = isActor(state), purchasing = state.phase === 'nightActions' && !state.me.nightBought;
+  const label = purchasing ? '공개 시장에서 카드를 골라보세요' : '손패에서 한 수를 선택하세요';
+  const description = purchasing ? '밤마다 특수 카드 1장을 구매할 수 있습니다. 구매 비용만큼 지지도가 줄어듭니다.' : `${state.phase === 'dayActions' ? '낮' : '밤'} 카드 1장을 사용할 수 있습니다. 아래 손패에서 빛나는 카드를 선택하세요.`;
+  return `<div class="action-intro"><div><span class="eyebrow">${mine ? '당신의 차례' : '다른 후보의 차례'}</span><h3>${mine ? label : `${esc(state.actionPlayer?.name || '다른 후보')}님이 행동 중입니다`}</h3><p>${mine ? description : '상대의 결정을 기다리며 공개 시장과 내 손패를 살펴보세요.'}</p></div><span class="action-symbol" aria-hidden="true">${state.phase === 'dayActions' ? '☀' : '☾'}</span></div>${mine ? `<div class="action-bottom">${pending ? '<span class="pending-label">서버 응답 확인 중…</span>' : ''}<button class="btn" id="skipAction" ${disabled}>${purchasing ? '구매 건너뛰기' : '카드 사용 건너뛰기'} →</button></div>` : ''}`;
+}
+function detailMarkup() {
+  const inst = selectedCard(); if (!inst) return '';
+  const c = inst.card, buying = selected.source === 'market';
+  const reason = buying ? purchaseReason(state, inst, connected()) : useReason(state, inst, connected());
+  const option = (value, label, chosen) => `<option value="${esc(value)}" ${value === chosen ? 'selected' : ''}>${esc(label)}</option>`;
+  let controls = '';
+  if (!buying) {
+    if (c.target) controls += `<label class="field">대상 후보<select id="targetSelect" data-target="targetId"><option value="">후보를 선택하세요</option>${state.players.filter(p => p.id !== state.me.id).map(p => option(p.id, `${p.name} · ${p.score}점`, targets.targetId)).join('')}</select></label>`;
+    if (c.stealTypes) controls += `<label class="field">우선 대상 자원<select id="resourceSelect" data-target="resourceType">${c.stealTypes.map(r => option(r, resources[r], targets.resourceType || c.stealTypes[0])).join('')}</select></label>`;
+    if (c.marketTarget) controls += `<label class="field">공개 시장 대상<select id="marketSelect" data-target="marketInstanceId"><option value="">카드를 선택하세요</option>${state.market.map(m => option(m.instanceId, m.card.name, targets.marketInstanceId)).join('')}</select></label>`;
+  }
+  return `<section class="detail family-${esc(c.family)}" id="cardDetail" aria-label="선택한 카드 상세"><div class="detail-art">${illustration(c.family, c.id)}</div><div><span class="eyebrow">${resources[c.family]} 계열 · ${c.timing === 'day' ? '낮' : '밤'} 사용</span><h3>${esc(c.name)}</h3><p class="detail-description">${esc(c.desc)}</p><p class="detail-cost">구매 비용: ${esc(costText(c.cost))}${buying ? ' · 보유 자원에서 지불합니다' : ''}</p>${controls ? `<div class="detail-controls">${controls}</div>` : ''}<div class="detail-actions"><button class="btn primary" id="confirmCard" ${reason || blocked() ? 'disabled' : ''}>${pending ? '서버 응답 확인 중…' : buying ? '비용을 지불하고 구매' : '선택한 카드 사용'}</button><button class="btn" id="cancelSelection">선택 취소</button><span class="detail-reason">${esc(reason)}</span></div></div></section>`;
+}
+function confirmCard() {
+  const inst = selectedCard(); if (!inst || blocked()) return;
+  if (selected.source === 'market') {
+    if (!purchaseReason(state, inst, connected())) request('nightPurchase', { cardInstanceId: inst.instanceId });
+    return;
+  }
+  if (useReason(state, inst, connected())) return;
+  const c = inst.card, payload = { cardInstanceId: inst.instanceId };
+  if (c.target) { if (!targets.targetId) { notify('대상 후보를 선택해 주세요.', true); $('targetSelect').focus(); return; } payload.targetId = targets.targetId; }
+  if (c.stealTypes) payload.resourceType = targets.resourceType || c.stealTypes[0];
+  if (c.marketTarget) { if (!targets.marketInstanceId) { notify('대상 시장 카드를 선택해 주세요.', true); $('marketSelect').focus(); return; } payload.marketInstanceId = targets.marketInstanceId; }
+  request(state.phase === 'dayActions' ? 'dayAction' : 'nightAction', payload);
+}
+function openInvite() { $('inviteCode').textContent = state.code; $('inviteUrl').value = inviteUrl(); $('inviteDialog').showModal(); }
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); notify('복사했습니다.'); }
+  catch { if (!$('inviteDialog').open) openInvite(); $('inviteUrl').focus(); $('inviteUrl').select(); notify('링크를 선택했습니다. 복사 단축키를 이용해 주세요.', true); }
+}
+function leave() {
+  if (!state) return;
+  // An active candidate disconnects so the existing server auto-skip path runs.
+  // In the lobby, leaveRoom removes the candidate and transfers the host.
+  const activeGame = state.started;
+  roomCode = ''; state = null; selected = null; targets = {}; joined = false; clearPending();
+  if (activeGame) socket.disconnect(); else socket.emit('leaveRoom');
+  history.replaceState({}, '', location.pathname);
+  $('game').hidden = true; $('entry').hidden = false; $('inviteTop').hidden = $('leaveBtn').hidden = true;
+  $('logPanel').hidden = true; $('logToggle').setAttribute('aria-expanded', 'false');
+  $('turnStatus').innerHTML = '<span class="eyebrow">다음 선거를 준비하세요</span>';
+  document.querySelectorAll('dialog[open]').forEach(d => d.close());
+  document.body.dataset.theme = 'day'; $('joinCode').value = '';
+  if (activeGame) socket.connect();
+  $('candidateName').focus(); render();
+}
+document.addEventListener('click', event => {
+  const button = event.target.closest('button'); if (!button || button.disabled) return;
+  if (button.dataset.dialog) { $(button.dataset.dialog).showModal(); return; }
+  if (button.hasAttribute('data-close')) { button.closest('dialog').close(); return; }
+  if (button.hasAttribute('data-invite')) { openInvite(); return; }
+  if (button.dataset.card) {
+    const same = selected?.id === button.dataset.card && selected?.source === button.dataset.source;
+    selected = same ? null : { id: button.dataset.card, source: button.dataset.source }; targets = {};
+    render();
+    if (selected) { $('cardDetail').scrollIntoView({ block: 'nearest', behavior: 'instant' }); $('cancelSelection').focus({ preventScroll: true }); }
+    return;
+  }
+  if (button.dataset.location) { if (!blocked() && !state.me.chosen) request('chooseLocation', { location: button.dataset.location }); return; }
+  switch (button.id) {
+    case 'startGame': request('startGame'); break;
+    case 'confirmCard': confirmCard(); break;
+    case 'cancelSelection': {
+      const old = selected; selected = null; targets = {}; render();
+      const card = [...document.querySelectorAll('[data-card]')].find(n => n.dataset.card === old?.id && n.dataset.source === old?.source);
+      card?.scrollIntoView({ block: 'center', behavior: 'instant' });
+      card?.focus({ preventScroll: true }); break;
+    }
+    case 'skipAction': if (!blocked()) request(state.phase === 'dayActions' ? 'dayAction' : !state.me.nightBought ? 'nightPurchase' : 'nightAction'); break;
+    case 'inviteTop': openInvite(); break;
+    case 'copyInvite': copyText(inviteUrl()); break;
+    case 'copyCode': copyText(state.code); break;
+    case 'leaveBtn': case 'newGame': leave(); break;
+    case 'playersToggle': { const open = $('candidates').classList.toggle('open'); button.setAttribute('aria-expanded', String(open)); break; }
+    case 'logToggle': $('logPanel').hidden = !$('logPanel').hidden; button.setAttribute('aria-expanded', String(!$('logPanel').hidden)); if (!$('logPanel').hidden) $('closeLog').focus(); break;
+    case 'closeLog': $('logPanel').hidden = true; $('logToggle').setAttribute('aria-expanded', 'false'); $('logToggle').focus(); break;
+  }
+});
+document.addEventListener('change', event => { if (event.target.dataset.target) targets[event.target.dataset.target] = event.target.value; });
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || document.querySelector('dialog[open]')) return;
+  if (!$('logPanel').hidden) { $('closeLog').click(); return; }
+  if (selected) $('cancelSelection').click();
+});
+$('createForm').addEventListener('submit', event => { event.preventDefault(); storage.set('mayorName', candidateName()); request('createRoom', { name: candidateName(), playerId, maxPlayers: Number(document.querySelector('[name=mode]:checked').value) }); });
+$('joinForm').addEventListener('submit', event => { event.preventDefault(); storage.set('mayorName', candidateName()); roomCode = $('joinCode').value.toUpperCase(); request('joinRoom', { code: roomCode, name: candidateName(), playerId }); });
+$('joinCode').addEventListener('input', event => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); });
+$('reduceMotion').checked = storage.get('mayorReduceMotion') === 'true';
+document.body.classList.toggle('reduce-motion', $('reduceMotion').checked);
+$('reduceMotion').addEventListener('change', event => { document.body.classList.toggle('reduce-motion', event.target.checked); storage.set('mayorReduceMotion', String(event.target.checked)); });
+$('entryCity').innerHTML = illustration('E', 'campaign-city');
+$('candidateName').value = storage.get('mayorName') || '';
+$('joinCode').value = roomCode;
+socket.on('connect', () => {
+  $('serverNotice').hidden = true;
+  $('connection').textContent = roomCode ? '상태 확인 중' : '서버 연결됨'; $('connection').className = 'connection online';
+  if (roomCode) request('joinRoom', { code: roomCode, name: candidateName(), playerId }); else render();
+});
+socket.on('disconnect', () => {
+  joined = false; clearPending(); $('connection').textContent = '연결 끊김 · 재접속 중'; $('connection').className = 'connection'; render();
+});
+socket.on('connect_error', () => {
+  $('connection').textContent = '서버 연결 대기'; $('connection').className = 'connection';
+  $('serverNotice').textContent = '게임 서버에 연결할 수 없습니다. 게임 서버 주소와 연결 상태를 확인해 주세요.';
+  $('serverNotice').hidden = false; render();
+});
+for (const event of ['roomCreated', 'roomJoined']) socket.on(event, data => {
+  joined = true; roomCode = data.code; playerId = data.playerId;
+  storage.set('mayorPlayerId', playerId); storage.set('mayorName', candidateName());
+  history.replaceState({}, '', `${location.pathname}?room=${roomCode}`);
+  $('connection').textContent = '서버 연결됨';
+});
+socket.on('state', onState);
+socket.on('notice', data => {
+  const joining = pending?.event === 'joinRoom'; clearPending();
+  if (joining && !joined) {
+    roomCode = ''; state = null; $('game').hidden = true; $('entry').hidden = false;
+    $('inviteTop').hidden = $('leaveBtn').hidden = true;
+    $('turnStatus').textContent = '방 코드를 확인해 주세요';
+  }
+  notify(data.message, data.type === 'error'); render();
+});
+if (!hasTransport) {
+  $('connection').textContent = '화면 미리보기';
+  $('serverNotice').hidden = false;
+}
+render();
+
+});
+  </script>
+</body>
+</html>

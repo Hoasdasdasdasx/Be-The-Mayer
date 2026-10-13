@@ -4,7 +4,23 @@
   "private": true,
   "description": "시장 쟁탈전 - 실시간 멀티플레이 웹 보드게임 프로토타입",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=20" },
-  "dependencies": { "express": "^4.21.2", "socket.io": "^4.8.1" }
+  "scripts": {
+    "build": "node scripts/build-client.cjs",
+    "prestart": "npm run build",
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check public/ui.js && node scripts/build-client.cjs --check",
+    "test": "node --test tests/rules.test.cjs",
+    "test:browser": "npm run build && playwright test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "socket.io-client": "^4.8.4"
+  }
 }

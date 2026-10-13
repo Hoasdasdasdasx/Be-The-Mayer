@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Be The Mayor · 시장 쟁탈전</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23101827'/%3E%3Cpath d='M6 15 20 5 34 15M9 18v13m11-13v13m11-13v13M5 35h30' fill='none' stroke='%23d9ac57' stroke-width='3'/%3E%3C/svg%3E">
+  <!-- INLINE_STYLES -->
+  <script src="/socket.io/socket.io.js" defer></script>
+
+</head>
+<body data-theme="day">
+  <a class="skip-link" href="#main">게임판으로 건너뛰기</a>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Be The Mayor 처음 화면"><span class="crest" aria-hidden="true">♜</span><span>BE THE <b>MAYOR</b><small>시장 쟁탈전</small></span></a>
+    <div class="turn-status" id="turnStatus"><span class="eyebrow">도시의 다음 시장은 누구인가</span></div>
+    <nav class="top-actions" aria-label="게임 메뉴">
+      <span class="connection" id="connection" role="status">연결 중</span>
+      <button class="btn quiet" id="inviteTop" hidden>초대 <span id="roomCode"></span></button>
+      <button class="btn quiet" data-dialog="rulesDialog">규칙</button>
+      <button class="btn quiet" data-dialog="settingsDialog">설정</button>
+    </nav>
+  </header>
+  <main id="main">
+    <p id="serverNotice" class="server-notice" role="status" hidden>화면 미리보기입니다. 게임 서버에서 이 화면을 열면 방을 만들거나 참가할 수 있습니다.</p>
+    <noscript><p class="server-notice">게임을 시작하려면 자바스크립트를 허용한 브라우저에서 게임 서버를 열어 주세요.</p></noscript>
+    <section id="entry" class="entry">
+      <div class="entry-story"><span class="eyebrow">정치 전략 카드게임 · 2–10명</span><h1>이 도시의<br>주인이 <em>되어라.</em></h1><p>지지를 모으고, 권력을 움직이고, 판을 뒤집으세요.<br>열 번의 낮과 밤. 마지막에 남는 것은 당신의 선택입니다.</p><div id="entryCity" class="entry-city" aria-hidden="true"></div><div class="entry-stats"><span><b>18</b> 특수 카드</span><span><b>4</b> 권력층</span><span><b>10</b> 선거의 턴</span></div></div>
+      <div class="entry-forms"><span class="eyebrow">선거 캠프에 오신 것을 환영합니다</span><h2>당신의 캠페인을 시작하세요</h2>
+        <label class="field">후보자 이름<input id="candidateName" maxlength="20" placeholder="게임에서 사용할 이름" autocomplete="nickname"></label>
+        <form id="createForm"><fieldset><legend>새로운 선거 열기</legend><div class="mode-select"><label><input type="radio" name="mode" value="6" checked><span><b>6인 방</b><small>치열한 지역구 경쟁</small></span></label><label><input type="radio" name="mode" value="10"><span><b>10인 방</b><small>더 큰 정치의 무대</small></span></label></div><button class="btn primary wide" id="createBtn">새 방 만들기 <span aria-hidden="true">→</span></button></fieldset></form>
+        <form id="joinForm"><label class="field">초대받은 방 코드<input id="joinCode" maxlength="6" pattern="[A-Za-z0-9]{6}" placeholder="6자리 코드" required autocomplete="off"></label><button class="btn wide" id="joinBtn">참가 코드로 입장</button></form>
+        <p class="muted small">최소 2명부터 시작할 수 있습니다. 방과 게임 기록은 서버 재시작 시 초기화됩니다.</p>
+      </div>
+    </section>
+    <section id="game" hidden>
+      <div class="campaign-bar"><div id="myResources" class="my-resources"></div><div class="campaign-actions"><button class="btn quiet" id="playersToggle" aria-expanded="false" aria-controls="candidates">후보 현황</button><button class="btn quiet" id="logToggle" aria-expanded="false" aria-controls="logPanel">선거 기록 <span aria-hidden="true">↗</span></button></div></div>
+      <div class="arena">
+        <aside class="candidates" id="candidates"><div class="section-heading"><h2>후보 현황</h2><span id="playerCount" class="muted small"></span></div><p class="muted small">지지도가 곧 당신의 권력입니다.</p><div id="playerList"></div></aside>
+        <div class="battlefield">
+          <section class="board" aria-labelledby="phaseTitle"><div class="board-top"><div><span class="eyebrow" id="phaseStep"></span><h2 id="phaseTitle"></h2></div><ol class="phase-track" aria-label="턴 진행"><li data-phase="dayChoose">낮 장소</li><li data-phase="dayActions">낮 행동</li><li data-phase="nightChoose">밤 장소</li><li data-phase="nightActions">밤 행동</li></ol></div><div id="phaseContent"></div></section>
+          <section class="market-section" aria-labelledby="marketTitle"><div class="section-heading"><h2 id="marketTitle">공개 시장 <span class="muted small" id="marketCount"></span></h2><span class="muted small">검토 후 구매 · 밤에 최대 1장</span></div><div id="market" class="market"></div></section>
+        </div>
+        <section class="hand-section" aria-labelledby="handTitle"><div class="hand-heading"><div><span class="eyebrow">당신만의 정치적 한 수</span><h2 id="handTitle">내 손패 <span id="handCount" class="muted small"></span></h2></div><p class="muted small">카드를 선택해 효과를 확인하세요.<br>밝게 빛나는 카드는 지금 사용할 수 있습니다.</p></div><div id="hand" class="hand"></div></section>
+      </div>
+    </section>
+  </main>
+  <aside id="logPanel" class="log-panel" hidden aria-label="선거 기록"><div class="section-heading"><h2>선거 기록</h2><button class="btn quiet" id="closeLog" aria-label="선거 기록 닫기">닫기 ×</button></div><p class="muted small">새로운 기록이 위에 표시됩니다.</p><ol id="eventLog"></ol></aside>
+  <dialog id="rulesDialog" aria-labelledby="rulesTitle"><div class="section-heading"><span class="eyebrow">선거 안내서</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="rulesTitle">도시를 움직이는 네 가지 힘</h2><p>시민 · 지식인 · 조직원 · 상류층 자원은 각각 지지도 1점입니다. 10번째 밤이 끝났을 때 자원 합계가 가장 높은 후보가 당선됩니다. 동점자는 공동 당선됩니다.</p><h3>낮: 지지를 모으세요</h3><p>장소에서 자원 1개를 얻은 뒤, 순서에 따라 낮 특수 카드를 최대 1장 사용합니다.</p><h3>밤: 다음 수를 준비하세요</h3><p>장소에서 자원 1개를 얻고, 특수 카드를 최대 1장 구매한 뒤 밤 카드를 최대 1장 사용합니다. 구매 비용은 자원과 지지도에서 차감됩니다. 구매와 사용은 건너뛸 수 있습니다.</p><h3>장소와 우선권</h3><p>광장은 무제한입니다. 상가 · 술집 · 시청은 6인 방에서 각각 2 · 2 · 1명, 10인 방에서 4 · 3 · 2명을 수용합니다. 수용 인원 초과 시 턴마다 회전하는 우선권을 적용하며, 밀린 후보는 시민 자원을 얻습니다. 봉쇄된 시청을 선택해도 시민 자원을 받습니다. 선택 확정 후에는 바꿀 수 없습니다.</p><h3>특수 카드와 손패</h3><p>손패 한도는 4장입니다. 사용 시점과 효과는 카드에 표시됩니다. 밀실 거래로 받은 카드는 다음 턴부터 사용할 수 있습니다. 다른 후보에게는 손패 장수만 공개됩니다.</p><h3>연결과 게임 기록</h3><p>연결이 끊기면 서버에서 해당 후보의 행동을 자동으로 건너뜁니다. 같은 브라우저에서 초대 링크를 다시 열면 기존 후보로 재접속합니다. 서버가 재시작되면 방이 사라집니다.</p></dialog>
+  <dialog id="settingsDialog" aria-labelledby="settingsTitle"><div class="section-heading"><span class="eyebrow">플레이 환경</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="settingsTitle">설정</h2><label class="setting"><input type="checkbox" id="reduceMotion">애니메이션 줄이기</label><p class="muted">운영체제의 모션 감소 설정도 자동으로 적용됩니다.</p><button class="btn danger" id="leaveBtn" hidden>방 나가기</button><p class="muted small">진행 중인 방을 나가면 후보가 연결 해제 상태로 표시됩니다.</p></dialog>
+  <dialog id="inviteDialog" aria-labelledby="inviteTitle"><div class="section-heading"><span class="eyebrow">함께하는 선거</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="inviteTitle">후보자 초대</h2><p class="room-code" id="inviteCode"></p><label class="field">초대 링크<input id="inviteUrl" readonly></label><button class="btn primary" id="copyInvite">링크 복사</button><button class="btn" id="copyCode">코드 복사</button></dialog>
+  <div id="phaseTransition" aria-hidden="true"></div><div id="effects" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
+  <!-- INLINE_APP -->
+</body>
+</html>
