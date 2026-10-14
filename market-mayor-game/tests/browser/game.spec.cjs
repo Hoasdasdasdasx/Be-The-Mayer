@@ -181,3 +181,95 @@ test('단독 당선·공동 당선 표시와 새 선거 안내', async({page})=>
   await expect(page.locator('.victory')).toContainText('공동 당선'); await expect(page.locator('.ranking .winner')).toHaveCount(2);
   await page.locator('#newGame').click(); await expect(page.locator('#entry')).toBeVisible(); await expect(page.locator('#game')).toBeHidden();
 });
+
+const cardScale = locator => locator.evaluate(el => {
+  const matrix = new DOMMatrix(getComputedStyle(el).transform);
+  return Math.hypot(matrix.a, matrix.b);
+});
+
+test('시장·손패 호버와 선택 강조, 겹친 카드의 앞면, 버튼 반응', async ({ page }) => {
+  const f = cardState(); await fixture(page, f.state);
+  const market = page.locator('#market .game-card').first();
+  const width = await market.evaluate(el => el.offsetWidth);
+  await market.hover();
+  await expect.poll(() => cardScale(market)).toBeGreaterThan(1.075);
+  expect(await market.evaluate(el => el.offsetWidth)).toBe(width);
+  expect(await market.evaluate(el => parseFloat(getComputedStyle(el).transitionDuration))).toBeCloseTo(.19);
+  expect(await market.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).f)).toBeCloseTo(-11);
+  await market.click();
+  await expect.poll(() => cardScale(market)).toBeGreaterThan(1.095);
+  await expect(market).toHaveAttribute('aria-pressed', 'true');
+  const hand = page.locator('#hand .game-card').first();
+  await hand.evaluate(el => el.scrollIntoView({ block: 'center' })); await hand.hover();
+  await expect.poll(() => cardScale(hand)).toBeGreaterThan(1.095);
+  await hand.click();
+  await expect.poll(() => cardScale(hand)).toBeGreaterThan(1.115);
+  const neighbor = page.locator('#hand .game-card').nth(1);
+  await neighbor.evaluate(el => el.scrollIntoView({ block: 'center' })); await neighbor.hover();
+  await expect.poll(() => cardScale(neighbor)).toBeGreaterThan(1.095);
+  expect(await neighbor.evaluate(el => {
+    const r = el.getBoundingClientRect();
+    return [r.left + 12, r.right - 12].every(x => el.contains(document.elementFromPoint(x, r.top + 25)));
+  })).toBe(true);
+  expect(await hand.evaluate(el => el.offsetWidth)).toBeGreaterThan(0);
+  const cancel = page.locator('#cancelSelection'); await cancel.hover();
+  await expect.poll(() => cancel.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).f)).toBeCloseTo(-2);
+});
+
+test('낮·밤 하늘과 전체 UI가 양방향으로 페이드, 빈 손패 슬롯', async ({ page }, testInfo) => {
+  await page.setViewportSize({width:1920,height:1080});
+  const f = cardState(); f.room.players[0].hand = []; f.room.phase = 'dayChoose'; f.h.broadcast(f.room);
+  await fixture(page, f.clients[0].state);
+  await expect(page.locator('.vacant-card')).toHaveCount(4);
+  await expect(page.locator('#handCount')).toHaveText('0 / 4장');
+  await expect(page.locator('.day-sky')).toHaveCSS('opacity', '1');
+  const surfaces = ['.topbar', '.campaign-bar', '.board', '.hand-section'];
+  const colors = await page.evaluate(selectors => selectors.map(s => getComputedStyle(document.querySelector(s)).backgroundColor), surfaces);
+  await page.screenshot({path:testInfo.outputPath('day-atmosphere.png'),fullPage:true});
+  f.room.phase = 'nightChoose'; f.h.broadcast(f.room); await push(page, f.clients[0].state);
+  await expect.poll(() => page.locator('.night-sky').evaluate(el => { const n = Number(getComputedStyle(el).opacity); return n > .05 && n < .95; })).toBe(true);
+  await expect(page.locator('.night-sky')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.day-sky')).toHaveCSS('opacity', '0');
+  const nightColors = await page.evaluate(selectors => selectors.map(s => getComputedStyle(document.querySelector(s)).backgroundColor), surfaces);
+  nightColors.forEach((color,i) => expect(color).not.toBe(colors[i]));
+  await page.screenshot({path:testInfo.outputPath('night-atmosphere.png'),fullPage:true});
+  f.room.phase = 'dayChoose'; f.h.broadcast(f.room); await push(page, f.clients[0].state);
+  await expect.poll(() => page.locator('.day-sky').evaluate(el => { const n = Number(getComputedStyle(el).opacity); return n > .05 && n < .95; })).toBe(true);
+  await expect(page.locator('.day-sky')).toHaveCSS('opacity', '1');
+  await expect(page.locator('[data-location=plaza]')).toBeEnabled();
+  expect(await page.locator('#phaseTransition').count()).toBe(0);
+});
+
+test('구매·사용 비행 효과는 서버 확인 후에만 실행, 실패·중복 상태·모션 감소', async ({ page }) => {
+  const f = cardState('campaign', 'night');
+  f.room.players[0].hand = []; f.room.players[0].nightBought = false; f.h.broadcast(f.room);
+  await fixture(page, f.clients[0].state);
+  await page.locator('#market [data-card=market-0]').click(); await page.locator('#confirmCard').click();
+  await expect(page.locator('.card-flight')).toHaveCount(0);
+  await push(page, f.clients[0].state); await expect(page.locator('.card-flight')).toHaveCount(0);
+  await page.evaluate(() => window.__receive('notice', { type:'error', message:'구매 비용이 부족합니다.' }));
+  await expect(page.locator('#toast')).toContainText('부족'); await expect(page.locator('.card-flight')).toHaveCount(0);
+  await page.locator('#confirmCard').click();
+  const purchase = await page.evaluate(() => window.__sent.at(-1)); f.clients[0].send(purchase.event, purchase.data);
+  const approved = await page.evaluate(s => {
+    window.__receive('state', s);
+    const result = { flights: document.querySelectorAll('.purchase-flight').length, arrivals: document.querySelectorAll('#hand .card-arrive').length };
+    window.__receive('state', s); result.repeatArrival = document.querySelectorAll('#hand .card-arrive').length;
+    return result;
+  }, f.clients[0].state);
+  expect(approved).toEqual({flights:1,arrivals:1,repeatArrival:1});
+  await expect(page.locator('.card-flight')).toHaveCount(0);
+  f.h.startActions(f.room, 'day'); f.h.broadcast(f.room); await push(page, f.clients[0].state);
+  await page.locator('#hand [data-card=market-0]').click(); await page.locator('#confirmCard').click();
+  await expect(page.locator('.card-flight')).toHaveCount(0);
+  const use = await page.evaluate(() => window.__sent.at(-1)); f.clients[0].send(use.event, use.data);
+  const used = await page.evaluate(s => { window.__receive('state',s); return {flights:document.querySelectorAll('.use-flight').length, hand:document.querySelectorAll('#hand [data-card=market-0]').length}; }, f.clients[0].state);
+  expect(used).toEqual({flights:1,hand:0});
+  await expect(page.locator('.card-flight')).toHaveCount(0);
+  const reduced = cardState('campaign','night'); reduced.room.players[0].hand=[]; reduced.room.players[0].nightBought=false; reduced.h.broadcast(reduced.room);
+  await push(page,reduced.clients[0].state); await page.emulateMedia({reducedMotion:'reduce'});
+  await page.locator('#market [data-card=market-0]').click(); await page.locator('#confirmCard').click();
+  const reducedPurchase = await page.evaluate(() => window.__sent.at(-1)); reduced.clients[0].send(reducedPurchase.event,reducedPurchase.data);
+  const quiet = await page.evaluate(s => { window.__receive('state',s); return document.querySelectorAll('.card-flight, #hand .card-arrive').length; }, reduced.clients[0].state);
+  expect(quiet).toBe(0); await expect(page.locator('#handCount')).toHaveText('1 / 4장');
+});

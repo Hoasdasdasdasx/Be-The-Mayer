@@ -45,3 +45,7 @@ export function playerMarkup(p, state) {
   const me = p.id === state.me.id, active = p.id === state.actionPlayer?.id && /Actions$/.test(state.phase);
   return `<article class="candidate ${me ? 'self' : ''} ${active ? 'active' : ''}" aria-label="${escapeHtml(p.name)}${active ? ', 현재 행동 중' : ''}"><div class="candidate-top"><span class="avatar" aria-hidden="true">${escapeHtml(p.name.slice(0, 1))}</span><div class="candidate-name"><b>${escapeHtml(p.name)}</b><span>${me ? '내 후보 · ' : ''}${p.id === state.hostId ? '방장 · ' : ''}${p.connected ? '접속 중' : '연결 끊김'}</span></div><span class="candidate-score">${p.score}<small>지지도</small></span></div><div class="resource-row">${Object.entries(resources).map(([r, name]) => `<span class="text-${r}" title="${name}" aria-label="${name} ${p.resources[r]}">${symbols[r]} ${p.resources[r]}</span>`).join('')}</div><div class="candidate-foot"><span>특수 카드 ${p.handCount}장</span><span>${p.protected ? '◈ 강탈 보호' : active ? '● 행동 중' : ''}</span></div></article>`;
 }
+
+export function emptyHandMarkup() {
+  return `<div class="hand-empty"><div class="hand-slots" aria-hidden="true">${Array.from({ length: 4 }, (_, i) => `<span class="vacant-card" style="--slot-tilt:${(i - 1.5) * 4}deg"><span class="slot-emblem">♜</span><small>0${i + 1}</small></span>`).join('')}</div><div class="hand-empty-copy"><b>아직 꺼내지 않은 당신의 한 수</b><span>밤에 공개 시장에서 특수 카드를 확보하세요.</span></div></div>`;
+}

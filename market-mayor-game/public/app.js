@@ -1,4 +1,4 @@
-import { resources, symbols, phases, escapeHtml as esc, costText, illustration, isActor, useReason, purchaseReason, cardMarkup, playerMarkup } from './ui.js';
+import { resources, symbols, phases, escapeHtml as esc, costText, illustration, isActor, useReason, purchaseReason, cardMarkup, playerMarkup, emptyHandMarkup } from './ui.js';
 
 const $ = id => document.getElementById(id);
 const storage = {
@@ -9,6 +9,7 @@ const hasTransport = typeof window.io === 'function';
 const socket = hasTransport ? window.io() : { connected: false, on() {}, emit() {}, disconnect() {}, connect() {} };
 let state = null, selected = null, pending = null, pendingTimer, toastTimer;
 let targets = {}, joined = false;
+let arrival = null;
 let playerId = storage.get('mayorPlayerId') || '';
 let roomCode = new URLSearchParams(location.search).get('room')?.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6) || '';
 const candidateName = () => $('candidateName').value.trim() || storage.get('mayorName') || '무소속 후보';
@@ -47,14 +48,36 @@ function confirmed(s, p) {
     default: return false;
   }
 }
-function ghostCard(id) {
-  const el = [...document.querySelectorAll('#hand [data-card]')].find(node => node.dataset.card === id);
+function motionAllowed() {
+  return !document.body.classList.contains('reduce-motion') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+function cardFlight(id, source) {
+  if (!motionAllowed()) return;
+  const el = [...$(source === 'hand' ? 'hand' : 'market').querySelectorAll('[data-card]')].find(node => node.dataset.card === id);
   if (!el) return;
-  const rect = el.getBoundingClientRect(), clone = el.cloneNode(true);
-  clone.className += ' card-ghost'; clone.removeAttribute('data-card'); clone.tabIndex = -1;
+  let rect = el.getBoundingClientRect();
+  // The confirmation panel may have scrolled the actual card out of view.
+  // Start at the visible detail panel so the confirmed action remains visible.
+  if (rect.top < 150 || rect.bottom > innerHeight || rect.right < 0 || rect.left > innerWidth) {
+    const detail = $('cardDetail')?.getBoundingClientRect();
+    const width = Math.min(210, innerWidth - 40), height = Math.min(285, innerHeight - 190);
+    rect = { left: Math.max(20, Math.min(detail?.left || innerWidth / 2 - width / 2, innerWidth - width - 20)), top: Math.max(160, Math.min(detail?.top || 180, innerHeight - height - 20)), width, height };
+  }
+  const destination = $(source === 'hand' ? 'phaseContent' : 'hand').getBoundingClientRect();
+  const endX = Math.max(30, Math.min(destination.left + destination.width / 2, innerWidth - 30));
+  const endY = source === 'hand' ? Math.max(200, Math.min(destination.top + 70, innerHeight * .55)) : Math.min(innerHeight - 60, Math.max(innerHeight * .65, destination.top + 70));
+  const clone = el.cloneNode(true);
+  clone.classList.remove('selected', 'card-arrive');
+  clone.classList.add('card-flight', source === 'hand' ? 'use-flight' : 'purchase-flight');
+  clone.removeAttribute('data-card'); clone.removeAttribute('data-source'); clone.removeAttribute('aria-pressed');
+  clone.inert = true; clone.tabIndex = -1;
   Object.assign(clone.style, { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, maxWidth: 'none' });
+  clone.style.setProperty('--travel-x', `${endX - rect.left - rect.width / 2}px`);
+  clone.style.setProperty('--travel-y', `${endY - rect.top - rect.height / 2}px`);
+  clone.style.setProperty('--end-scale', source === 'hand' ? '.7' : '.45');
   $('effects').append(clone);
-  setTimeout(() => clone.remove(), 650);
+  clone.addEventListener('animationend', () => clone.remove(), { once: true });
+  setTimeout(() => clone.remove(), 600);
 }
 function onState(next) {
   const before = state, sent = pending;
@@ -62,9 +85,11 @@ function onState(next) {
   if (sent && confirmed(next, sent)) {
     const id = sent.payload.cardInstanceId;
     if (id && sent.event === 'nightPurchase' && next.me.hand.some(i => i.instanceId === id)) {
-      boughtId = id; notify('구매 완료. 비용이 반영되고 카드가 손패에 추가됐습니다.'); selected = null;
-    } else if (id && ['dayAction', 'nightAction'].includes(sent.event) && !next.me.hand.some(i => i.instanceId === id)) {
-      ghostCard(id); notify('카드 사용이 서버에 반영됐습니다.'); selected = null;
+      cardFlight(id, 'market');
+      boughtId = id; arrival = { id, until: performance.now() + 500 };
+      notify('구매 완료. 비용이 반영되고 카드가 손패에 추가됐습니다.'); selected = null;
+    } else if (id && ['dayAction', 'nightAction'].includes(sent.event) && before?.me.hand.some(i => i.instanceId === id) && !next.me.hand.some(i => i.instanceId === id)) {
+      cardFlight(id, 'hand'); notify('카드 사용이 서버에 반영됐습니다.'); selected = null;
     }
     clearPending();
   }
@@ -72,20 +97,13 @@ function onState(next) {
   if (selected && !selectedCard()) { selected = null; targets = {}; }
   if (targets.targetId && !state.players.some(p => p.id === targets.targetId && p.id !== state.me.id)) targets.targetId = '';
   if (targets.marketInstanceId && !state.market.some(i => i.instanceId === targets.marketInstanceId)) targets.marketInstanceId = '';
-  const night = state.phase.startsWith('night');
-  const previousNight = before?.phase.startsWith('night');
+  const night = state.phase.startsWith('night') || state.phase === 'finished';
   document.body.dataset.theme = night ? 'night' : 'day';
-  if (before && before.started && state.started && previousNight !== night && state.phase !== 'finished') {
-    $('phaseTransition').classList.remove('animate');
-    void $('phaseTransition').offsetWidth;
-    $('phaseTransition').classList.add('animate');
-  }
   render();
   if (!before || before.phase !== state.phase || before.actionPlayer?.id !== state.actionPlayer?.id) {
     $('announcement').textContent = `${state.turn}턴, ${phaseNames[state.phase]}. ${actorText()}`;
   }
   if (boughtId) {
-    [...$('hand').querySelectorAll('[data-card]')].find(el => el.dataset.card === boughtId)?.classList.add('card-arrive');
     $('myResources').classList.remove('resource-spend'); void $('myResources').offsetWidth; $('myResources').classList.add('resource-spend');
   }
 }
@@ -121,7 +139,10 @@ function render() {
     $('marketCount').textContent = `${state.market.length}장`;
     $('market').innerHTML = state.market.map((inst, index) => cardMarkup(inst, { source: 'market', index, selected: selected?.source === 'market' && selected.id === inst.instanceId, reason: purchaseReason(state, inst, connected()) })).join('');
     $('handCount').textContent = `${state.me.hand.length} / 4장`;
-    $('hand').innerHTML = state.me.hand.length ? state.me.hand.map((inst, index) => cardMarkup(inst, { index, total: state.me.hand.length, selected: selected?.source === 'hand' && selected.id === inst.instanceId, reason: useReason(state, inst, connected()) })).join('') : '<div class="hand-empty"><span class="card-back" aria-hidden="true">♜</span><span><b>아직 꺼내지 않은 당신의 한 수</b>밤에 공개 시장에서 특수 카드를 확보하세요.</span></div>';
+    $('hand').innerHTML = state.me.hand.length ? state.me.hand.map((inst, index) => cardMarkup(inst, { index, total: state.me.hand.length, selected: selected?.source === 'hand' && selected.id === inst.instanceId, reason: useReason(state, inst, connected()) })).join('') : emptyHandMarkup();
+    if (arrival && performance.now() < arrival.until && motionAllowed()) {
+      [...$('hand').querySelectorAll('[data-card]')].find(el => el.dataset.card === arrival.id)?.classList.add('card-arrive');
+    }
     $('eventLog').innerHTML = state.log.map(line => `<li>${esc(line)}</li>`).join('');
   });
 }
