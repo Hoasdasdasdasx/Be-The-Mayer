@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { createHarness } = require('../server-harness.cjs');
+const { randomBytes } = require('node:crypto');
 
 async function observeLiveSocket(page) {
   await page.route('**/socket.io/socket.io.js', async route => {
@@ -8,11 +9,27 @@ async function observeLiveSocket(page) {
   });
 }
 async function waitState(page, expression) { await page.waitForFunction(expression); }
+async function copyInvite(page) {
+  const code = await page.locator('#roomCode').textContent();
+  const origin = new URL(page.url()).origin;
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write'], { origin });
+  await page.locator('#inviteTop').click();
+  const link = await page.locator('#inviteUrl').inputValue();
+  const url = new URL(link);
+  expect(url.origin).toBe(origin);
+  expect(url.search).toBe(`?room=${code}`);
+  expect(url.hash).toMatch(/^#invite=[A-Za-z0-9_-]{43}$/);
+  await page.locator('#copyInvite').click();
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(link);
+  await page.keyboard.press('Escape');
+  return link;
+}
 async function fixture(page, initial) {
+  const resumeToken = randomBytes(32).toString('base64url');
   await page.route('**/socket.io/socket.io.js', route => route.fulfill({ contentType: 'text/javascript', body: `
     window.__sent=[];const handlers={};window.__receive=(event,data)=>(handlers[event]||[]).forEach(fn=>fn(data));
     window.io=()=>{const socket={connected:true,on(event,fn){(handlers[event]||=[]).push(fn)},emit(event,data){window.__sent.push({event,data})},disconnect(){this.connected=false;window.__receive('disconnect')},connect(){this.connected=true;window.__receive('connect')}};
-    window.__socket=socket;setTimeout(()=>{window.__receive('connect');window.__receive('roomJoined',{code:${JSON.stringify(initial.code)},playerId:${JSON.stringify(initial.me.id)}});window.__receive('state',${JSON.stringify(initial)});},0);return socket;};
+    window.__socket=socket;setTimeout(()=>{window.__receive('connect');window.__receive('roomJoined',{code:${JSON.stringify(initial.code)},playerId:${JSON.stringify(initial.me.id)},resumeToken:${JSON.stringify(resumeToken)}});window.__receive('state',${JSON.stringify(initial)});},0);return socket;};
   ` })) ;
   await page.goto('/'); await expect(page.locator('#game')).toBeVisible();
 }
@@ -36,10 +53,16 @@ test('실제 서버: 두 브라우저 세션, 초대, 비공개 선택, 재접�
   const errors = []; pages.forEach(p=>p.on('pageerror',e=>errors.push(e.message)));
   for (const page of pages) await observeLiveSocket(page);
   const [a,b] = pages;
-  await a.goto('/'); await a.locator('#candidateName').fill('서윤'); await a.locator('#createBtn').click();
+  await a.goto('/'); await a.locator('#candidateName').fill('서윤');
+  await a.locator('#creatorKey').fill(process.env.MAYOR_BROWSER_TEST_KEY); await a.locator('#createBtn').click();
   await expect(a.locator('#game')).toBeVisible(); await expect(a.locator('#startGame')).toBeDisabled();
+  const retainedKey = await a.evaluate(key => [localStorage, sessionStorage].some(storage =>
+    Object.values(storage).some(value => value.includes(key))), process.env.MAYOR_BROWSER_TEST_KEY);
+  expect(retainedKey).toBe(false);
   const code = await a.locator('#roomCode').textContent();
-  await b.goto(`/?room=${code}`); await expect(b.locator('#game')).toBeVisible();
+  const link = await copyInvite(a);
+  await b.goto(link); await expect(b.locator('#game')).toBeVisible();
+  await expect(b).toHaveURL(new URL(`/?room=${code}`, link).href);
   await expect(a.locator('#playerCount')).toHaveText('2 / 6명');
   await a.locator('#startGame').click();
   await expect(a.locator('[data-location=plaza]')).toContainText('무제한');
@@ -87,9 +110,28 @@ test('실제 서버: 10인 모드, 공개 시장 5장, 상가·술집·시청 �
   const contexts = await Promise.all([browser.newContext(),browser.newContext()]);
   const [a,b] = await Promise.all(contexts.map(c=>c.newPage()));
   for(const p of [a,b]) await observeLiveSocket(p);
-  await a.goto('/'); await a.locator('[name=mode][value="10"]').check(); await a.locator('#createBtn').click();
+  await a.goto('/'); await a.locator('[name=mode][value="10"]').check();
+  await a.locator('#creatorKey').fill(process.env.MAYOR_BROWSER_TEST_KEY); await a.locator('#createBtn').click();
   await expect(a.locator('#market .game-card')).toHaveCount(5);
-  await b.goto(`/?room=${await a.locator('#roomCode').textContent()}`); await expect(a.locator('#playerCount')).toHaveText('2 / 10명');
+  const link = await copyInvite(a);
+  const code = await a.locator('#roomCode').textContent();
+  await b.goto(`/?room=${code}`);
+  await expect(b.locator('#serverNotice')).toContainText('전체 초대 링크');
+  await expect(b.locator('#game')).toBeHidden();
+  await expect(b.locator('#entry')).toBeVisible();
+  await b.locator('#candidateName').fill('민준');
+  await b.locator('#joinCode').fill(link);
+  await b.locator('#joinBtn').click();
+  await expect(a.locator('#playerCount')).toHaveText('2 / 10명');
+  await expect(b.locator('#game')).toBeVisible();
+  const guest = await b.evaluate(() => window.__state.me);
+  expect(guest.name).toBe('민준');
+  await b.reload();
+  await expect(b.locator('#game')).toBeVisible();
+  await expect(b.locator('#playerCount')).toHaveText('2 / 10명');
+  expect(await b.evaluate(() => window.__state.me.id)).toBe(guest.id);
+  await expect(b).toHaveURL(new URL(`/?room=${code}`, link).href);
+  expect(await copyInvite(b)).toBe(link);
   await a.locator('#startGame').click();
   await a.locator('[data-location=shops]').click(); await b.locator('[data-location=tavern]').click();
   await a.locator('#skipAction').click(); await b.locator('#skipAction').click();
@@ -195,7 +237,7 @@ test('시장·손패 호버와 선택 강조, 겹친 카드의 앞면, 버튼 �
   await expect.poll(() => cardScale(market)).toBeGreaterThan(1.075);
   expect(await market.evaluate(el => el.offsetWidth)).toBe(width);
   expect(await market.evaluate(el => parseFloat(getComputedStyle(el).transitionDuration))).toBeCloseTo(.19);
-  expect(await market.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).f)).toBeCloseTo(-11);
+  await expect.poll(() => market.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).f)).toBeCloseTo(-11);
   await market.click();
   await expect.poll(() => cardScale(market)).toBeGreaterThan(1.095);
   await expect(market).toHaveAttribute('aria-pressed', 'true');

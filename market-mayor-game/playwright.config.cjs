@@ -1,5 +1,8 @@
 const { defineConfig } = require('@playwright/test');
 const fs = require('node:fs');
+const { randomBytes } = require('node:crypto');
+// Share a disposable operator key between this test server and its workers.
+const creatorKey = process.env.MAYOR_BROWSER_TEST_KEY ||= randomBytes(32).toString('base64url');
 module.exports = defineConfig({
   testDir: './tests/browser',
   timeout: 60000,
@@ -11,5 +14,5 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure'
   },
-  webServer: { command: 'node server.js', env: { PORT: '3100' }, url: 'http://127.0.0.1:3100/health', reuseExistingServer: false },
+  webServer: { command: 'node server.js', env: { PORT: '3100', ROOM_CREATOR_KEY: creatorKey }, url: 'http://127.0.0.1:3100/health', reuseExistingServer: false },
 });
