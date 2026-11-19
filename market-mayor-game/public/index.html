@@ -179,8 +179,8 @@ body.reduce-motion .game-card:hover,body.reduce-motion .game-card:focus-visible,
       <div class="entry-story"><span class="eyebrow">정치 전략 카드게임 · 2–10명</span><h1>이 도시의<br>주인이 <em>되어라.</em></h1><p>지지를 모으고, 권력을 움직이고, 판을 뒤집으세요.<br>열 번의 낮과 밤. 마지막에 남는 것은 당신의 선택입니다.</p><div id="entryCity" class="entry-city" aria-hidden="true"></div><div class="entry-stats"><span><b>18</b> 특수 카드</span><span><b>4</b> 권력층</span><span><b>10</b> 선거의 턴</span></div></div>
       <div class="entry-forms"><span class="eyebrow">선거 캠프에 오신 것을 환영합니다</span><h2>당신의 캠페인을 시작하세요</h2>
         <label class="field">후보자 이름<input id="candidateName" maxlength="20" placeholder="게임에서 사용할 이름" autocomplete="nickname"></label>
-        <form id="createForm"><fieldset><legend>새로운 선거 열기</legend><div class="mode-select"><label><input type="radio" name="mode" value="6" checked><span><b>6인 방</b><small>치열한 지역구 경쟁</small></span></label><label><input type="radio" name="mode" value="10"><span><b>10인 방</b><small>더 큰 정치의 무대</small></span></label></div><button class="btn primary wide" id="createBtn">새 방 만들기 <span aria-hidden="true">→</span></button></fieldset></form>
-        <form id="joinForm"><label class="field">초대받은 방 코드<input id="joinCode" maxlength="6" pattern="[A-Za-z0-9]{6}" placeholder="6자리 코드" required autocomplete="off"></label><button class="btn wide" id="joinBtn">참가 코드로 입장</button></form>
+        <form id="joinForm"><label class="field">초대 링크<input id="joinCode" placeholder="받은 초대 링크를 붙여넣으세요" required autocomplete="off" autocapitalize="none" spellcheck="false"></label><button class="btn primary wide" id="joinBtn">초대받은 방에 입장</button></form>
+        <form id="createForm"><fieldset><legend>운영자용 방 만들기</legend><label class="field">방 생성 키<input id="creatorKey" type="password" required autocomplete="off" spellcheck="false"></label><div class="mode-select"><label><input type="radio" name="mode" value="6" checked><span><b>6인 방</b><small>치열한 지역구 경쟁</small></span></label><label><input type="radio" name="mode" value="10"><span><b>10인 방</b><small>더 큰 정치의 무대</small></span></label></div><button class="btn wide" id="createBtn">새 방 만들기 <span aria-hidden="true">→</span></button></fieldset></form>
         <p class="muted small">최소 2명부터 시작할 수 있습니다. 방과 게임 기록은 서버 재시작 시 초기화됩니다.</p>
       </div>
     </section>
@@ -197,9 +197,9 @@ body.reduce-motion .game-card:hover,body.reduce-motion .game-card:focus-visible,
     </section>
   </main>
   <aside id="logPanel" class="log-panel" hidden aria-label="선거 기록"><div class="section-heading"><h2>선거 기록</h2><button class="btn quiet" id="closeLog" aria-label="선거 기록 닫기">닫기 ×</button></div><p class="muted small">새로운 기록이 위에 표시됩니다.</p><ol id="eventLog"></ol></aside>
-  <dialog id="rulesDialog" aria-labelledby="rulesTitle"><div class="section-heading"><span class="eyebrow">선거 안내서</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="rulesTitle">도시를 움직이는 네 가지 힘</h2><p>시민 · 지식인 · 조직원 · 상류층 자원은 각각 지지도 1점입니다. 10번째 밤이 끝났을 때 자원 합계가 가장 높은 후보가 당선됩니다. 동점자는 공동 당선됩니다.</p><h3>낮: 지지를 모으세요</h3><p>장소에서 자원 1개를 얻은 뒤, 순서에 따라 낮 특수 카드를 최대 1장 사용합니다.</p><h3>밤: 다음 수를 준비하세요</h3><p>장소에서 자원 1개를 얻고, 특수 카드를 최대 1장 구매한 뒤 밤 카드를 최대 1장 사용합니다. 구매 비용은 자원과 지지도에서 차감됩니다. 구매와 사용은 건너뛸 수 있습니다.</p><h3>장소와 우선권</h3><p>광장은 무제한입니다. 상가 · 술집 · 시청은 6인 방에서 각각 2 · 2 · 1명, 10인 방에서 4 · 3 · 2명을 수용합니다. 수용 인원 초과 시 턴마다 회전하는 우선권을 적용하며, 밀린 후보는 시민 자원을 얻습니다. 봉쇄된 시청을 선택해도 시민 자원을 받습니다. 선택 확정 후에는 바꿀 수 없습니다.</p><h3>특수 카드와 손패</h3><p>손패 한도는 4장입니다. 사용 시점과 효과는 카드에 표시됩니다. 밀실 거래로 받은 카드는 다음 턴부터 사용할 수 있습니다. 다른 후보에게는 손패 장수만 공개됩니다.</p><h3>연결과 게임 기록</h3><p>연결이 끊기면 서버에서 해당 후보의 행동을 자동으로 건너뜁니다. 같은 브라우저에서 초대 링크를 다시 열면 기존 후보로 재접속합니다. 서버가 재시작되면 방이 사라집니다.</p></dialog>
+  <dialog id="rulesDialog" aria-labelledby="rulesTitle"><div class="section-heading"><span class="eyebrow">선거 안내서</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="rulesTitle">도시를 움직이는 네 가지 힘</h2><p>시민 · 지식인 · 조직원 · 상류층 자원은 각각 지지도 1점입니다. 10번째 밤이 끝났을 때 자원 합계가 가장 높은 후보가 당선됩니다. 동점자는 공동 당선됩니다.</p><h3>낮: 지지를 모으세요</h3><p>장소에서 자원 1개를 얻은 뒤, 순서에 따라 낮 특수 카드를 최대 1장 사용합니다.</p><h3>밤: 다음 수를 준비하세요</h3><p>장소에서 자원 1개를 얻고, 특수 카드를 최대 1장 구매한 뒤 밤 카드를 최대 1장 사용합니다. 구매 비용은 자원과 지지도에서 차감됩니다. 구매와 사용은 건너뛸 수 있습니다.</p><h3>장소와 우선권</h3><p>광장은 무제한입니다. 상가 · 술집 · 시청은 6인 방에서 각각 2 · 2 · 1명, 10인 방에서 4 · 3 · 2명을 수용합니다. 수용 인원 초과 시 턴마다 회전하는 우선권을 적용하며, 밀린 후보는 시민 자원을 얻습니다. 봉쇄된 시청을 선택해도 시민 자원을 받습니다. 선택 확정 후에는 바꿀 수 없습니다.</p><h3>특수 카드와 손패</h3><p>손패 한도는 4장입니다. 사용 시점과 효과는 카드에 표시됩니다. 밀실 거래로 받은 카드는 다음 턴부터 사용할 수 있습니다. 다른 후보에게는 손패 장수만 공개됩니다.</p><h3>연결과 게임 기록</h3><p>연결이 끊기면 서버에서 해당 후보의 행동을 자동으로 건너뜁니다. 초대 링크를 받은 사람은 대기 중인 방에 참가할 수 있습니다. 같은 브라우저에서 링크를 다시 열면 저장된 참가 정보로 내 자리에 돌아옵니다. 서버가 재시작되면 방이 사라집니다.</p></dialog>
   <dialog id="settingsDialog" aria-labelledby="settingsTitle"><div class="section-heading"><span class="eyebrow">플레이 환경</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="settingsTitle">설정</h2><label class="setting"><input type="checkbox" id="reduceMotion">애니메이션 줄이기</label><p class="muted">운영체제의 모션 감소 설정도 자동으로 적용됩니다.</p><button class="btn danger" id="leaveBtn" hidden>방 나가기</button><p class="muted small">진행 중인 방을 나가면 후보가 연결 해제 상태로 표시됩니다.</p></dialog>
-  <dialog id="inviteDialog" aria-labelledby="inviteTitle"><div class="section-heading"><span class="eyebrow">함께하는 선거</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="inviteTitle">후보자 초대</h2><p class="room-code" id="inviteCode"></p><label class="field">초대 링크<input id="inviteUrl" readonly></label><button class="btn primary" id="copyInvite">링크 복사</button><button class="btn" id="copyCode">코드 복사</button></dialog>
+  <dialog id="inviteDialog" aria-labelledby="inviteTitle"><div class="section-heading"><span class="eyebrow">함께하는 선거</span><button class="btn quiet" data-close>닫기 ×</button></div><h2 id="inviteTitle">후보자 초대</h2><p class="room-code" id="inviteCode"></p><label class="field">초대 링크<input id="inviteUrl" readonly></label><button class="btn primary" id="copyInvite">링크 복사</button></dialog>
   <div id="effects" aria-hidden="true"></div>
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
@@ -263,21 +263,72 @@ const esc = escapeHtml;
 const $ = id => document.getElementById(id);
 const storage = {
   get(key) { try { return localStorage.getItem(key); } catch { return null; } },
-  set(key, value) { try { localStorage.setItem(key, value); } catch { /* Private browsing may deny persistence. */ } }
+  set(key, value) { try { localStorage.setItem(key, value); } catch { /* Private browsing may deny persistence. */ } },
+  remove(key) { try { localStorage.removeItem(key); } catch { /* Storage may be unavailable. */ } }
 };
 const hasTransport = typeof window.io === 'function';
 const socket = hasTransport ? window.io() : { connected: false, on() {}, emit() {}, disconnect() {}, connect() {} };
 let state = null, selected = null, pending = null, pendingTimer, toastTimer;
 let targets = {}, joined = false;
 let arrival = null;
-let playerId = storage.get('mayorPlayerId') || '';
-let roomCode = new URLSearchParams(location.search).get('room')?.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6) || '';
+let seat = null;
+let initialLink = new URLSearchParams(location.search).has('room') ? location.href : '';
+const roomFormat = /^[0-9a-f]{6}$/i;
+const keyFormat = /^[A-Za-z0-9_-]{43}$/;
+const seatKey = code => `mayorSeat:${code}`;
+const gamePath = pathname => pathname.replace(/\/index\.html$/, '/');
 const candidateName = () => $('candidateName').value.trim() || storage.get('mayorName') || '무소속 후보';
 const connected = () => socket.connected && joined;
 const blocked = () => !!pending || !connected();
-const inviteUrl = () => `${location.origin}${location.pathname}?room=${state?.code || roomCode}`;
+const inviteUrl = (member = seat) => member && keyFormat.test(member.inviteToken)
+  ? `${location.origin}${location.pathname}?room=${member.code}#invite=${member.inviteToken}` : '';
 const selectedCard = () => selected && (selected.source === 'hand' ? state?.me.hand : state?.market)?.find(i => i.instanceId === selected.id);
 const phaseNames = { lobby: '대기실', dayChoose: '낮 · 장소 선택', dayActions: '낮 · 카드 사용', nightChoose: '밤 · 장소 선택', nightActions: '밤 · 구매 및 행동', finished: '선거 종료' };
+
+function savedSeat(code) {
+  try {
+    const saved = JSON.parse(storage.get(seatKey(code)));
+    return saved?.code === code && saved.playerId && keyFormat.test(saved.resumeToken) ? saved : null;
+  } catch { return null; }
+}
+
+function readInvite(input) {
+  const value = input.trim();
+  if (roomFormat.test(value)) return { code: value.toUpperCase() };
+  try {
+    const url = new URL(value);
+    if (url.origin !== location.origin || gamePath(url.pathname) !== gamePath(location.pathname) || url.username || url.password) return null;
+    const code = url.searchParams.get('room');
+    const inviteToken = new URLSearchParams(url.hash.slice(1)).get('invite');
+    if (!roomFormat.test(code) || (inviteToken !== null && !keyFormat.test(inviteToken))) return null;
+    return { code: code.toUpperCase(), inviteToken };
+  } catch { return null; }
+}
+
+function entryNotice(message) {
+  if (socket.connected) $('connection').textContent = '서버 연결됨';
+  $('serverNotice').textContent = message;
+  $('serverNotice').hidden = false;
+  $('turnStatus').textContent = '참가 안내';
+  notify(message, true);
+}
+
+function resumeSeat(saved) {
+  request('joinRoom', { code: saved.code, playerId: saved.playerId, resumeToken: saved.resumeToken });
+}
+
+function joinFromInput(value) {
+  const invite = readInvite(value);
+  if (invite) {
+    const saved = savedSeat(invite.code);
+    if (saved && (!invite.inviteToken || invite.inviteToken === saved.inviteToken)) {
+      return resumeSeat(saved);
+    }
+    if (invite.inviteToken) return request('joinRoom', { ...invite, name: candidateName() });
+  }
+  entryNotice('처음 참가하려면 방에서 복사한 전체 초대 링크를 열거나 붙여넣어 주세요.');
+  render();
+}
 
 function notify(message, error = false) {
   clearTimeout(toastTimer);
@@ -340,6 +391,7 @@ function cardFlight(id, source) {
   setTimeout(() => clone.remove(), 600);
 }
 function onState(next) {
+  if (!joined) return;
   const before = state, sent = pending;
   let boughtId;
   if (sent && confirmed(next, sent)) {
@@ -408,7 +460,7 @@ function render() {
 }
 function phaseMarkup() {
   const disabled = blocked() ? 'disabled' : '';
-  if (state.phase === 'lobby') return `<div class="lobby-content"><div><span class="eyebrow">초대 코드</span><p class="room-code">${esc(state.code)}</p><button class="btn" data-invite>후보자 초대하기 ↗</button></div><div class="lobby-start"><h3>${state.players.length}명의 후보가 모였습니다</h3><p>이 도시를 바꿀 경쟁자를 초대하세요.</p>${state.me.isHost ? `<button class="btn primary" id="startGame" ${disabled || (state.players.length < 2 ? 'disabled' : '')}>선거 시작하기 →</button><p>${state.players.length < 2 ? '최소 2명이 참가하면 시작할 수 있습니다.' : '참가자들이 준비되었다면 시작하세요.'}</p>` : '<p>방장이 선거를 시작할 때까지 기다려 주세요.</p>'}</div></div>`;
+  if (state.phase === 'lobby') return `<div class="lobby-content"><div><span class="eyebrow">방 코드</span><p class="room-code">${esc(state.code)}</p><button class="btn" data-invite>후보자 초대하기 ↗</button></div><div class="lobby-start"><h3>${state.players.length}명의 후보가 모였습니다</h3><p>이 도시를 바꿀 경쟁자를 초대하세요.</p>${state.me.isHost ? `<button class="btn primary" id="startGame" ${disabled || (state.players.length < 2 ? 'disabled' : '')}>선거 시작하기 →</button><p>${state.players.length < 2 ? '최소 2명이 참가하면 시작할 수 있습니다.' : '참가자들이 준비되었다면 시작하세요.'}</p>` : '<p>방장이 선거를 시작할 때까지 기다려 주세요.</p>'}</div></div>`;
   if (/Choose$/.test(state.phase)) return `<p class="phase-note">각 장소에서 자원 1개를 얻습니다. <b>${state.choiceCount} / ${state.players.length}명 선택</b> · 선택은 비공개입니다.</p><div class="locations">${Object.entries(state.locations).map(([id, loc]) => `<button class="location family-${esc(loc.resource)} ${state.me.chosen === id ? 'chosen' : ''} ${loc.closed ? 'closed' : ''}" data-location="${esc(id)}" ${disabled || (state.me.chosen ? 'disabled' : '')} aria-pressed="${state.me.chosen === id}" aria-label="${esc(loc.label)}, ${loc.closed ? '폐쇄, 시민 자원 1개 획득' : `${resources[loc.resource]} 자원 1개`}, ${loc.capacity == null ? '정원 무제한' : `정원 ${loc.capacity}명`}">${illustration(loc.resource, id, true)}<strong>${esc(loc.label)}</strong><span class="location-resource">${loc.closed ? '봉쇄됨 · 시민 1개 획득' : `${symbols[loc.resource]} ${resources[loc.resource]} +1`}</span><span class="capacity">${loc.capacity == null || loc.capacity === Infinity ? '수용 인원 무제한' : `수용 인원 ${loc.capacity}명 · 초과 시 시민 +1`}</span></button>`).join('')}</div>${state.me.chosen ? '<p class="waiting">✓ 선택을 확정했습니다. 다른 후보의 선택을 기다립니다.</p>' : pending ? '<p class="waiting">선택을 서버에 전달하고 있습니다…</p>' : '<p class="phase-note" style="margin:10px 0 0">정원이 초과되면 이번 턴의 우선권을 적용합니다. 선택 확정 후 변경할 수 없습니다.</p>'}`;
   if (state.phase === 'finished') {
     const winners = new Set(state.winner.map(w => w.id));
@@ -445,26 +497,38 @@ function confirmCard() {
   if (c.marketTarget) { if (!targets.marketInstanceId) { notify('대상 시장 카드를 선택해 주세요.', true); $('marketSelect').focus(); return; } payload.marketInstanceId = targets.marketInstanceId; }
   request(state.phase === 'dayActions' ? 'dayAction' : 'nightAction', payload);
 }
-function openInvite() { $('inviteCode').textContent = state.code; $('inviteUrl').value = inviteUrl(); $('inviteDialog').showModal(); }
+function openInvite() {
+  $('inviteCode').textContent = state.code;
+  $('inviteUrl').value = inviteUrl();
+  $('copyInvite').disabled = !$('inviteUrl').value;
+  $('inviteDialog').showModal();
+}
 async function copyText(text) {
   try { await navigator.clipboard.writeText(text); notify('복사했습니다.'); }
   catch { if (!$('inviteDialog').open) openInvite(); $('inviteUrl').focus(); $('inviteUrl').select(); notify('링크를 선택했습니다. 복사 단축키를 이용해 주세요.', true); }
 }
-function leave() {
-  if (!state) return;
-  // An active candidate disconnects so the existing server auto-skip path runs.
-  // In the lobby, leaveRoom removes the candidate and transfers the host.
-  const activeGame = state.started;
-  roomCode = ''; state = null; selected = null; targets = {}; joined = false; clearPending();
-  if (activeGame) socket.disconnect(); else socket.emit('leaveRoom');
+function showEntry() {
+  seat = null; state = null; selected = null; targets = {}; joined = false; clearPending();
+  initialLink = '';
   history.replaceState({}, '', location.pathname);
   $('game').hidden = true; $('entry').hidden = false; $('inviteTop').hidden = $('leaveBtn').hidden = true;
   $('logPanel').hidden = true; $('logToggle').setAttribute('aria-expanded', 'false');
   $('turnStatus').innerHTML = '<span class="eyebrow">다음 선거를 준비하세요</span>';
   document.querySelectorAll('dialog[open]').forEach(d => d.close());
   document.body.dataset.theme = 'day'; $('joinCode').value = '';
-  if (activeGame) socket.connect();
+  $('inviteUrl').value = '';
   $('candidateName').focus(); render();
+}
+function leave() {
+  if (!state) return;
+  if (!state.started && !connected()) return notify('연결이 복구되면 대기실에서 나갈 수 있습니다.', true);
+  // During play the server keeps the seat and skips disconnected turns.
+  const activeGame = state.started;
+  if (!activeGame) {
+    socket.emit('leaveRoom');
+  }
+  showEntry();
+  if (activeGame) { socket.disconnect(); socket.connect(); }
 }
 document.addEventListener('click', event => {
   const button = event.target.closest('button'); if (!button || button.disabled) return;
@@ -491,7 +555,6 @@ document.addEventListener('click', event => {
     case 'skipAction': if (!blocked()) request(state.phase === 'dayActions' ? 'dayAction' : !state.me.nightBought ? 'nightPurchase' : 'nightAction'); break;
     case 'inviteTop': openInvite(); break;
     case 'copyInvite': copyText(inviteUrl()); break;
-    case 'copyCode': copyText(state.code); break;
     case 'leaveBtn': case 'newGame': leave(); break;
     case 'playersToggle': { const open = $('candidates').classList.toggle('open'); button.setAttribute('aria-expanded', String(open)); break; }
     case 'logToggle': $('logPanel').hidden = !$('logPanel').hidden; button.setAttribute('aria-expanded', String(!$('logPanel').hidden)); if (!$('logPanel').hidden) $('closeLog').focus(); break;
@@ -504,19 +567,30 @@ document.addEventListener('keydown', event => {
   if (!$('logPanel').hidden) { $('closeLog').click(); return; }
   if (selected) $('cancelSelection').click();
 });
-$('createForm').addEventListener('submit', event => { event.preventDefault(); storage.set('mayorName', candidateName()); request('createRoom', { name: candidateName(), playerId, maxPlayers: Number(document.querySelector('[name=mode]:checked').value) }); });
-$('joinForm').addEventListener('submit', event => { event.preventDefault(); storage.set('mayorName', candidateName()); roomCode = $('joinCode').value.toUpperCase(); request('joinRoom', { code: roomCode, name: candidateName(), playerId }); });
-$('joinCode').addEventListener('input', event => { event.target.value = event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); });
+$('createForm').addEventListener('submit', event => {
+  event.preventDefault();
+  const creatorKey = $('creatorKey').value;
+  $('creatorKey').value = '';
+  request('createRoom', { name: candidateName(), creatorKey, maxPlayers: Number(document.querySelector('[name=mode]:checked').value) });
+});
+$('joinForm').addEventListener('submit', event => { event.preventDefault(); joinFromInput($('joinCode').value); });
 $('reduceMotion').checked = storage.get('mayorReduceMotion') === 'true';
 document.body.classList.toggle('reduce-motion', $('reduceMotion').checked);
 $('reduceMotion').addEventListener('change', event => { document.body.classList.toggle('reduce-motion', event.target.checked); storage.set('mayorReduceMotion', String(event.target.checked)); });
 $('entryCity').innerHTML = illustration('E', 'campaign-city');
 $('candidateName').value = storage.get('mayorName') || '';
-$('joinCode').value = roomCode;
+$('joinCode').value = initialLink;
 socket.on('connect', () => {
   $('serverNotice').hidden = true;
-  $('connection').textContent = roomCode ? '상태 확인 중' : '서버 연결됨'; $('connection').className = 'connection online';
-  if (roomCode) request('joinRoom', { code: roomCode, name: candidateName(), playerId }); else render();
+  $('connection').textContent = seat || initialLink ? '상태 확인 중' : '서버 연결됨';
+  $('connection').className = 'connection online';
+  if (seat) return resumeSeat(seat);
+  if (initialLink) {
+    const link = initialLink;
+    initialLink = '';
+    joinFromInput(link);
+  }
+  render();
 });
 socket.on('disconnect', () => {
   joined = false; clearPending(); $('connection').textContent = '연결 끊김 · 재접속 중'; $('connection').className = 'connection'; render();
@@ -526,19 +600,54 @@ socket.on('connect_error', () => {
   $('serverNotice').textContent = '게임 서버에 연결할 수 없습니다. 게임 서버 주소와 연결 상태를 확인해 주세요.';
   $('serverNotice').hidden = false; render();
 });
-for (const event of ['roomCreated', 'roomJoined']) socket.on(event, data => {
-  joined = true; roomCode = data.code; playerId = data.playerId;
-  storage.set('mayorPlayerId', playerId); storage.set('mayorName', candidateName());
-  history.replaceState({}, '', `${location.pathname}?room=${roomCode}`);
+for (const event of ['roomCreated', 'roomJoined']) socket.on(event, (data, acknowledge) => {
+  const sent = pending?.payload || {};
+  const previous = seat?.code === data.code ? seat : savedSeat(data.code);
+  seat = {
+    code: data.code, playerId: data.playerId,
+    resumeToken: data.resumeToken || sent.resumeToken,
+    inviteToken: data.inviteToken || sent.inviteToken || previous?.inviteToken
+  };
+  joined = true;
+  if (keyFormat.test(seat.resumeToken)) storage.set(seatKey(seat.code), JSON.stringify(seat));
+  if (typeof acknowledge === 'function') acknowledge();
+  storage.set('mayorName', candidateName());
+  history.replaceState({}, '', `${location.pathname}?room=${seat.code}`);
+  $('joinCode').value = '';
+  $('serverNotice').hidden = true;
   $('connection').textContent = '서버 연결됨';
+});
+socket.on('seatReplaced', ({ code }) => {
+  if (seat?.code !== code) return;
+  showEntry();
+  entryNotice('다른 탭에서 이 자리에 접속했습니다. 그 탭에서 게임을 계속해 주세요.');
+});
+socket.on('roomLeft', ({ code, playerId, removed }) => {
+  if (removed && savedSeat(code)?.playerId === playerId) storage.remove(seatKey(code));
+  if (removed && seat?.code === code && seat.playerId === playerId) {
+    const link = inviteUrl(seat);
+    showEntry();
+    $('joinCode').value = link;
+  }
 });
 socket.on('state', onState);
 socket.on('notice', data => {
-  const joining = pending?.event === 'joinRoom'; clearPending();
+  const joining = pending?.event === 'joinRoom';
+  const attempted = pending?.payload;
+  clearPending();
   if (joining && !joined) {
-    roomCode = ''; state = null; $('game').hidden = true; $('entry').hidden = false;
-    $('inviteTop').hidden = $('leaveBtn').hidden = true;
-    $('turnStatus').textContent = '방 코드를 확인해 주세요';
+    if (attempted.resumeToken) {
+      const saved = savedSeat(attempted.code);
+      const link = inviteUrl(seat || saved);
+      if (saved?.resumeToken === attempted.resumeToken) storage.remove(seatKey(attempted.code));
+      showEntry();
+      $('joinCode').value = link;
+      entryNotice('이전 자리를 복구할 수 없습니다. 대기 중인 방에 새로 참가하려면 초대 링크를 확인하고 입장 버튼을 눌러 주세요.');
+      return;
+    }
+    showEntry();
+    entryNotice(data.message);
+    return;
   }
   notify(data.message, data.type === 'error'); render();
 });
